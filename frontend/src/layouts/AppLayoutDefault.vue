@@ -1,10 +1,15 @@
 <template>
     <main>
-        <div class="bg-gray-100">
+        <div>
             <slot/>
         </div>
     </main>
-    <!-- footer -->
-    <!-- loader -->
+    <Footer/>
+    <Spinner class="size-8"/>
 
 </template>
+<script setup lang="ts">
+import Footer from "@/components/Footer.vue"
+import Spinner from "@/components/ui/spinner/Spinner.vue"
+
+</script>
