@@ -1,9 +1,9 @@
 <template>
 
-    <div class="flex">
+    <main class="flex">
 
         <section
-            class="bg-[#4F8F9D] md:w-[60%] h-screen hidden md:flex flex-col items-center justify-center text-center px-8">
+            class="bg-main md:w-[60%] h-screen hidden md:flex flex-col items-center justify-center text-center px-8">
             <div class="flex flex-col items-center space-y-3">
                 <div class="flex items-center space-x-2">
                     <TruckIcon class="w-20 h-20 text-white" />
@@ -28,7 +28,7 @@
                 <!-- CARD -->
                 <Card class="relative pt-16 pb-8 px-6 shadow-lg">
                     <div class="absolute -top-12 left-1/2 transform -translate-x-1/2">
-                        <div class="w-24 h-24 rounded-full bg-[#4F8F9D] flex items-center justify-center shadow-md">
+                        <div class="w-24 h-24 rounded-full bg-main flex items-center justify-center shadow-md">
                             <UserCircleIcon class="text-white w-20 h-20" />
                         </div>
                     </div>
@@ -38,30 +38,42 @@
                     </CardHeader>
 
                     <CardContent>
-                        <form class="space-y-4">
+                        <form class="space-y-4" @submit.prevent="login">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700">Usuário</label>
-                                <input type="text"
-                                    class="mt-1 block w-full rounded-sm px-2 h-8 border-gray-300 shadow-sm focus:border-[#4F8F9D] focus:ring-[#4F8F9D]"
-                                    placeholder="Usuário" />
+
+                                <InputWithLabel
+                                    v-model="loginInstance.email"
+                                    label="E-mail" 
+                                    place-holder="E-mail"
+                                />
+
                             </div>
 
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 ">Senha</label>
-                                <input type="password"
-                                    class="mt-1 block w-full px-2 h-8 rounded-sm border-gray-300 shadow-sm focus:border-[#4F8F9D] focus:ring-[#4F8F9D]"
-                                    placeholder="Senha" />
+                            <div class="relative">
+
+                                <InputWithLabel
+                                    v-model="loginInstance.password"
+                                    :type="isTypePassword ? 'password' : 'text'"
+                                    label="Senha" 
+                                    place-holder="Senha"
+                                />
+
+                                <button type="button" @click="isTypePassword = !isTypePassword"
+                                    class="absolute inset-y-11 right-2 flex items-center text-gray-500 hover:text-main focus:outline-none cursor-pointer">
+                                    <EyeIcon v-if="!isTypePassword" class="w-5 h-5" />
+                                    <EyeSlashIcon v-else class="w-5 h-5" />
+                                </button>
                             </div>
 
                             <div class="flex justify-between px-4">
                                 <label class="flex items-center gap-2">
-                                    <input type="checkbox" class="rounded border-gray-300" /> Lembrar
+                                    <input type="checkbox" class="rounded border-gray-300" /> Lembrar-me
                                 </label>
-                                <a href="#" class="text-[#4F8F9D] hover:underline">Esqueci a senha</a>
+                                <a href="#" class="text-main hover:underline">Esqueci a senha</a>
                             </div>
 
                             <button type="submit"
-                                class="w-full bg-[#4F8F9D] text-white py-2 rounded-md hover:bg-[#437c89] transition cursor-pointer">
+                                class="w-full bg-main text-white py-2 rounded-md hover:bg-main-hover transition cursor-pointer">
                                 Entrar
                             </button>
                         </form>
@@ -71,7 +83,7 @@
                         <p class="flex items-center gap-2">
                             Não Possue Cadastro?
                         </p>
-                        <a href="#" class="text-[#4F8F9D] hover:underline">Cadastrar-se</a>
+                        <a href="#" class="text-main hover:underline">Cadastrar-se</a>
                     </CardFooter> -->
 
                 </Card>
@@ -83,16 +95,28 @@
             </div>
 
         </section>
-    </div>
+    </main>
 
 
 
 
 </template>
 <script setup lang="ts">
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { TruckIcon, UserCircleIcon } from '@heroicons/vue/24/outline'
-import Footer from "@/components/Footer.vue"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { TruckIcon, UserCircleIcon, EyeIcon, EyeSlashIcon } from '@heroicons/vue/24/outline';
+import Footer from "@/components/Footer.vue";
+import { ref } from 'vue';
+import Login from '@/entities/Login';
+import InputWithLabel from '@/components/ui/input/InputWithLabel.vue';
 
+
+const isTypePassword = ref<boolean>(true);
+
+const loginInstance = ref<Login>(new Login());
+
+
+const login = () => {
+    console.log(loginInstance.value)
+}
 
 </script>

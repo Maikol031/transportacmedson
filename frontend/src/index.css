@@ -113,6 +113,12 @@
   --sidebar-ring: oklch(0.446 0.043 257.281);
 }
 
+
+@theme {
+  --color-main: #4F8F9D;
+  --color-main-hover: #437c89;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
