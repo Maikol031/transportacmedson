@@ -102,7 +102,7 @@
 
 </template>
 <script setup lang="ts">
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { TruckIcon, UserCircleIcon, EyeIcon, EyeSlashIcon } from '@heroicons/vue/24/outline';
 import Footer from "@/components/Footer.vue";
 import { ref } from 'vue';

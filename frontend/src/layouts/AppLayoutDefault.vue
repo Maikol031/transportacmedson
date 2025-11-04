@@ -3,8 +3,8 @@
         <Menu />
         <main class=" relative mb-14 sm:mb-0 flex w-full">
             <SidebarTrigger
-                class="bg-main hover:bg-main border-l-none text-white hover:text-white md:fixed border-l-black rounded-none rounded-r-md" />
-            <div class="flex-1 p-6 relative min-h-screen sm:ml-14 space-y-16">
+                class="bg-white border-l-none text-black hover:bg-stone-100 cursor-pointer md:fixed border-l-black rounded-none rounded-r-md" />
+            <div class="flex-1 pr-6 pt-5 relative min-h-screen sm:ml-14 space-y-16">
                 <div class="flex items-center gap-4">
                     <h1 class="font-bold text-4xl text-gray-700">{{ title }}</h1>
                     <!-- <div class="flex-1 h-px bg-gray-200 mt-4"></div> -->

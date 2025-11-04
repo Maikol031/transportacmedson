@@ -68,7 +68,7 @@
 </template>
 
 <script setup lang="ts">
-import { Calendar, Home, Inbox, Search, Settings, ClipboardPlusIcon, ChevronDown, ChevronUp, Minus, Users, User, Fuel, Clipboard, Truck } from "lucide-vue-next"
+import { Home, ClipboardPlusIcon, ChevronDown, Minus, Users, User, Fuel, Clipboard, Truck } from "lucide-vue-next"
 import { TruckIcon } from '@heroicons/vue/24/outline';
 import {
   Sidebar,

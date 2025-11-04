@@ -1,19 +1,40 @@
 <template>
-    <DynamicTable :columns="columns" :items="items" :enableTooltip="true">
-        <template #actions="{ row }">
-            <DropDownActions :is-excluir="true" @detalhar="console.log('teste')" />
-        </template>
-    </DynamicTable>
 
+    <div class="space-y-4">
+
+       <CommonActionsHeader
+            :is-filter-btn="true"
+            :is-new-register-btn="true"
+            @filter="modals.isOpen.filter = true"
+            @newRegister="modals.isOpen.actions = true"
+       />
+
+        <DynamicTable :columns="columns" :items="items" :enableTooltip="true">
+            <template #actions>
+                <DropDownActions :is-excluir="true" @detalhar="console.log('teste')" />
+            </template>
+        </DynamicTable>
+    </div>
+    <ModalTrucks v-model:open="modals.isOpen.actions" :method="'add'"/>
+    <ModalTrucksFilter v-model:open="modals.isOpen.filter" />
 
 </template>
 <script setup lang="ts">
-
-import { DynamicTable } from '@/components/ui/table'
-import type { Column } from '@/components/ui/table'
+import ModalTrucksFilter from '@/components/modals/filters/ModalTrucksFilter.vue';
 import DropDownActions from '@/components/ui/dropdown-menu/DropDownActions.vue';
+import CommonActionsHeader from '@/components/CommonActionsHeader.vue';
+import ModalTrucks from '@/components/modals/details/ModalTrucks.vue';
+import { DynamicTable } from '@/components/ui/table';
+import type { Column } from '@/components/ui/table';
 import { ref } from 'vue';
 
+
+const modals = ref({
+    isOpen: {
+        filter: false,
+        actions: false
+    }
+})
 
 const columns = ref<Column[]>([
     {
@@ -40,7 +61,7 @@ const columns = ref<Column[]>([
 const items = ref([
     {
         id: 1,
-        placa: "hbz-1235dsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssfdddddddddddddddddgggggggggggggdddddddddddddddssssssssssssssssssssssssssssssssssssssssss",
+        placa: "hbz-1235",
         modelo: "Scania 124 Bicudo",
         dtValTacografo: "21/08/2026",
         kilometragem: "180.000.000",
@@ -78,3 +99,12 @@ const items = ref([
 
 
 </script>
+<style>
+
+@reference "../index.css";
+
+.new-register-btn {
+    @apply bg-main border border-gray-200 h-10 rounded-sm justify-end hover:bg-main-hover text-white cursor-pointer transition duration-300;
+}
+
+</style>
