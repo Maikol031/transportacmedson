@@ -14,9 +14,9 @@ caminhaoRoute.get("/caminhoes", async(req: Request, res: Response) => await cami
 
 caminhaoRoute.post("/caminhoes", async(req: Request, res: Response) => await caminhaoInstance.create(req, res));
 
-caminhaoRoute.put("/caminhoes", async(req: Request, res: Response) => await caminhaoInstance.update(req, res));
+caminhaoRoute.put("/caminhoes/:id", async(req: Request, res: Response) => await caminhaoInstance.update(req, res));
 
-caminhaoRoute.delete("/caminhoes", async(req: Request, res: Response) => await caminhaoInstance.delete(req, res));
+caminhaoRoute.delete("/caminhoes/:id", async(req: Request, res: Response) => await caminhaoInstance.delete(req, res));
 
 
 export default caminhaoRoute;
