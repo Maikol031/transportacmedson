@@ -1,4 +1,5 @@
 import type { ICrudFactory } from "@/interfaces/ICrudFactory"
+import api from "@/services/AxiosConfig"
 
 export default class CrudFactory implements ICrudFactory {
     private readonly url: string
@@ -8,7 +9,7 @@ export default class CrudFactory implements ICrudFactory {
     }
 
     async create(body: any, headers?: any, config?: any) {
-        console.log(body, this.url)
+        // console.log(body, this.url)
         // return api.post(this.url, body, { headers, ...config })
     }
 
@@ -21,7 +22,7 @@ export default class CrudFactory implements ICrudFactory {
     }
 
     async read(headers?: any, config?: any) {
-        // return api.get(this.url, { headers, ...config })
+        return api.get(this.url, { headers, ...config })
     }
 
     async readWithQueryParams(query: string, headers?: any, config?: any) {

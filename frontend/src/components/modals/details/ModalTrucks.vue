@@ -76,8 +76,8 @@ import CommonButtonsFooterModal from '@/components/CommonButtonsFooterModal.vue'
 import InputTextDefault from '@/components/ui/input/InputTextDefault.vue';
 import ModalScrollBody from '@/components/ModalScrollBody.vue';
 import LabelValidation from '@/components/LabelValidation.vue';
-import DatePicker from '@/components/DatePicker.vue';
 import type { ICaminhoes } from '@/interfaces/ICaminhoes';
+import DatePicker from '@/components/DatePicker.vue';
 import { useVuelidate } from '@vuelidate/core';
 import Caminhoes from '@/entities/Caminhoes';
 import { ref, watch } from 'vue';
@@ -118,8 +118,11 @@ const editForm = () => {
 }
 
 watch(() => props.open, (value: boolean) => {
-    if (!value) return
-    v$.value.$reset()
+    if (!value) {
+        Object.assign(caminhoesInstance.value, new Caminhoes())
+        v$.value.$reset()
+        return
+    }
     if (props.method === "edit") {
         console.log(props.items)
         Object.assign(caminhoesInstance.value, props.items)

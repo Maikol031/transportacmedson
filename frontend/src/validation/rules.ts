@@ -80,6 +80,9 @@ function validarCPF(cpf: string): boolean {
 }
 
 function validarCNPJ(cnpj: string): boolean {
+
+  if(!cnpj) return true
+
   cnpj = cnpj.replace(/\D/g, '')
   if (cnpj.length !== 14 || /^(\d)\1{13}$/.test(cnpj)) return false
   

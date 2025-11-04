@@ -35,6 +35,18 @@ const routes = [
             layout: "AppLayoutDefault",
             title: "Caminhões"
         }
+    },
+    {
+        name: "motoristas",
+        path: "/cadastros/motoristas",
+        components: {
+            default: () => import("@/pages/motoristas.vue"),
+        },
+        meta: {
+            requiresAuth: true,
+            layout: "AppLayoutDefault",
+            title: "Motoristas"
+        }
     }
 
 ]

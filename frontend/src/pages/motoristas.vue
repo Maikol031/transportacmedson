@@ -19,7 +19,7 @@
 
   </div>
 
-  <ModalTrucks
+  <ModalMotoristas
     v-model:open="modals.isOpen.actions"
     :method="modals.method"
     :items="modals.details"
@@ -34,10 +34,10 @@ import { onMounted, ref } from 'vue'
 import ModalTrucksFilter from '@/components/modals/filters/ModalTrucksFilter.vue'
 import DropDownActions from '@/components/ui/dropdown-menu/DropDownActions.vue'
 import CommonActionsHeader from '@/components/CommonActionsHeader.vue'
-import ModalTrucks from '@/components/modals/details/ModalTrucks.vue'
 import type { ICaminhoes } from '@/interfaces/ICaminhoes'
 import { DynamicTable } from '@/components/ui/table'
 import type { Column } from '@/components/ui/table'
+import ModalMotoristas from '@/components/modals/details/ModalMotoristas.vue'
 
 type ModalType = 'add' | 'edit' | 'filter'
 interface ModalProps {
@@ -79,74 +79,81 @@ const openModal = (type: ModalType, item?: any) => {
 }
 
 const columns = ref<Column[]>([
-  { key: 'placa', label: 'Placa' },
-  { key: 'marca', label: 'Marca', maxWidth: '20rem' },
-  { key: 'modelo', label: 'Modelo', maxWidth: '20rem' },
-  { key: 'renavan', label: 'Renavam', maxWidth: '20rem' },
-  { key: 'dataVencTacografo', label: 'Data Venc. Tacógrafo', width: '10rem' },
-  { key: 'kilometragem', label: 'Kilometragem' },
-  { key: 'numeroAet', label: 'Número AET' },
-  { key: 'emissaoAet', label: 'Emissão AET' },
-  { key: 'validadeAet', label: 'Validade AET' },
-  { key: 'situacaoAet', label: 'Situação AET' },
+  { key: 'nome', label: 'Nome do Motorista' },
+  { key: 'cpf', label: 'CPF' },
+  { key: 'cnpj', label: 'CNPJ' },
+  { key: 'telefone', label: 'Telefone / WhatsApp' },
+  { key: 'cnh', label: 'CNH' },
+  { key: 'categoriaCnh', label: 'Categoria CNH', width: '8rem' },
+  { key: 'validadeCnh', label: 'Validade CNH', width: '10rem' },
+  { key: 'tipoVinculo', label: 'Tipo de Vínculo', width: '10rem' },
+  { key: 'placaVeiculo', label: 'Placa do Veículo', width: '8rem' },
+  { key: 'status', label: 'Status', width: '8rem' },
   { key: 'actions', label: 'Ações', width: '80px' }
 ])
+
 
 const items = ref([
   {
     id: 1,
-    placa: 'HBZ-1235',
-    modelo: 'Scania 124 Bicudo',
-    dataVencTacografo: '2026-08-10',
-    kilometragem: '180.000.000',
-    numeroAet: 'AET-2025-0001',
-    emissaoAet: '15/01/2025',
-    validadeAet: '15/09/2025',
-    situacaoAet: 'Válida'
+    nome: 'João Pereira da Silva',
+    cpf: '123.456.789-00',
+    cnpj: '00.623.904/0001-73',
+    telefone: '(11) 98765-4321',
+    cnh: '98765432100',
+    categoriaCnh: 'E',
+    validadeCnh: '2026-05-15',
+    tipoVinculo: 'CLT',
+    placaVeiculo: 'HBZ-1235',
+    status: 'Ativo'
   },
   {
     id: 2,
-    placa: 'ABC-4321',
-    modelo: 'Volvo FH16',
-    dataVencTacografo: '10/04/2025',
-    kilometragem: '150.234.756',
-    numeroAet: 'AET-2025-0002',
-    emissaoAet: '02/12/2025',
-    validadeAet: '02/12/2025',
-    situacaoAet: 'Válida'
+    nome: 'Carlos Eduardo Martins',
+    cpf: '234.567.890-11',
+    telefone: '(12) 99876-5432',
+    cnh: '87654321099',
+    categoriaCnh: 'D',
+    validadeCnh: '2025-09-20',
+    tipoVinculo: 'Agregado',
+    placaVeiculo: 'ABC-4321',
+    status: 'Ativo'
   },
   {
     id: 3,
-    placa: 'XYZ-9876',
-    modelo: 'Mercedes-Benz Actros',
-    dataVencTacografo: '05/11/2024',
-    kilometragem: '200.564.010',
-    numeroAet: 'AET-2024-0456',
-    emissaoAet: '02/12/2025',
-    validadeAet: '10/11/2024',
-    situacaoAet: 'Expirada'
+    nome: 'Marcos Vinícius Almeida',
+    cpf: '345.678.901-22',
+    telefone: '(31) 91234-5678',
+    cnh: '76543210988',
+    categoriaCnh: 'E',
+    validadeCnh: '2024-12-05',
+    tipoVinculo: 'Autônomo',
+    placaVeiculo: 'XYZ-9876',
+    status: 'Inativo'
   },
   {
     id: 4,
-    placa: 'DEF-7654',
-    modelo: 'Ford Cargo 2429',
-    dataVencTacografo: '30/01/2023',
-    kilometragem: '99.876.543',
-    numeroAet: 'AET-2023-0099',
-    emissaoAet: '02/12/2025',
-    validadeAet: '05/05/2024',
-    situacaoAet: 'Expirada'
+    nome: 'José Ricardo Oliveira',
+    cpf: '456.789.012-33',
+    telefone: '(41) 97654-3210',
+    cnh: '65432109877',
+    categoriaCnh: 'C',
+    validadeCnh: '2025-03-30',
+    tipoVinculo: 'CLT',
+    placaVeiculo: 'DEF-7654',
+    status: 'Ativo'
   },
   {
     id: 5,
-    placa: 'GHI-2468',
-    modelo: 'Iveco Tector',
-    dataVencTacografo: '15/07/2025',
-    kilometragem: '120.345.678',
-    numeroAet: 'AET-2025-0321',
-    emissaoAet: '02/12/2025',
-    validadeAet: '20/10/2025',
-    situacaoAet: 'Pendente'
+    nome: 'Pedro Henrique Santos',
+    cpf: '567.890.123-44',
+    telefone: '(21) 96543-2109',
+    cnh: '54321098766',
+    categoriaCnh: 'D',
+    validadeCnh: '2023-11-30',
+    tipoVinculo: 'Autônomo',
+    placaVeiculo: 'GHI-2468',
+    status: 'Inativo'
   }
 ])
 

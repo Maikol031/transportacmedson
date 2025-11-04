@@ -103,7 +103,7 @@ const cadastroModule = [
   },
   {
     title: "Motoristas",
-    url: "#",
+    url: "/cadastros/motoristas",
     icon: User,
   },
   {

@@ -1,5 +1,5 @@
 <template>
-    <div class=" flex items-end justify-end gap-x-2">
+    <div class="flex items-end justify-end gap-x-2">
         <Button v-if="isFilterBtn" @click="$emit('filter')" class="default-btn">
             <span class="flex items-center gap-x-2 text-md">
                 <ListFilter class="size-5" /> Filtros
