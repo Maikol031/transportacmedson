@@ -1,0 +1,32 @@
+GET http://localhost:3334/api/caminhoes?page=1&limit=10
+
+###
+
+POST http://localhost:3334/api/caminhoes
+Content-Type: application/json
+
+{
+  "placa": "ABC-12346",
+  "renavam": "12345678902",
+  "marca": "Volvo",
+  "modelo": "FH16",
+  "licenciamento": 2023,
+  "aets": "AETS123456"  
+}
+
+###
+
+PUT http://localhost:3334/api/caminhoes/4
+Content-Type: application/json
+
+{
+  "placa": "ABC-45678",
+  "marca": "Volvo",
+  "modelo": "FH16",
+  "licenciamento": 2024,
+  "aets": "AETS123456"  
+}
+
+###
+
+DELETE http://localhost:3334/api/caminhoes/4
