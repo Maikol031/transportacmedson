@@ -1,39 +1,47 @@
 <template>
     <ModalScrollBody v-model:open="open" :title="'Filtros'" :is-show-footer="true">
-               <template #body>
+        <template #body>
             <form id="mainForm" @submit.prevent="submitForm()" class="form">
 
                 <div class="columns">
 
-                    <LabelValidation label="Placa" class="w-full md:w-90">
-                        <InputTextDefault v-model:model="caminhoesInstance.placa"/>
+                    <LabelValidation label="Nome do Motorista" class="w-full">
+                        <InputTextDefault v-model:model="motoristasInstance.nome"/>
                     </LabelValidation>
 
-                    <LabelValidation label="Marca" class="w-full">
-                        <InputTextDefault v-model:model="caminhoesInstance.modelo"/>
+                    <LabelValidation label="CPF" class="w-full md:w-90">
+                        <InputTextDefault v-model:model="motoristasInstance.cpf" mask="cpf"
+                            :max-length="14" />
+                    </LabelValidation>
+
+                </div>
+
+                <div class="columns">
+
+                    <LabelValidation label="Telefone / WhatsApp" class="w-full">
+                        <InputTextDefault v-model:model="motoristasInstance.telefone" mask="telefone" :max-length="15" />
+                    </LabelValidation>
+
+                    <LabelValidation label="CNH" class="w-full">
+                        <InputTextDefault v-model:model="motoristasInstance.cnh" mask="cnh" />
                     </LabelValidation>
 
                 </div>
 
                 <div class="columns">
 
-                    <LabelValidation label="Modelo" class="w-full">
-                        <InputTextDefault v-model:model="caminhoesInstance.modelo"/>
+                    <LabelValidation label="Validade CNH" class="w-full">
+                        <DatePicker v-model="motoristasInstance.validadeCnh"/>
                     </LabelValidation>
 
-                    <LabelValidation label="Data Venc. Tacografo" class="w-full md:w-90">
-                        <DatePicker v-model="caminhoesInstance.dataVencTacografo"/>
+                    <LabelValidation label="Categoria CNH" class="w-full">
+                        <InputTextDefault v-model:model="motoristasInstance.categoriaCnh"/>
                     </LabelValidation>
 
-                </div>
-
-                <div class="columns">
-                    <LabelValidation label="Kilometragem" class="w-full">
-                        <InputTextDefault v-model:model="caminhoesInstance.kilometragem"/>
-                    </LabelValidation>
-
-                    <LabelValidation label="Validade AET" class="w-full md:w-90">
-                        <DatePicker v-model="caminhoesInstance.dh_inc"/>
+                    <LabelValidation label="Status" class="w-full">
+                        <SelectScroll v-model="motoristasInstance.status"
+                            :options="[{ label: 'Status', items: [{ value: 'Ativo', label: 'Ativo' }, { value: 'Inativo', label: 'Inativo' }] }]"
+                        />
                     </LabelValidation>
 
                 </div>
@@ -58,7 +66,7 @@ import LabelValidation from '@/components/LabelValidation.vue';
 import type { ICaminhoes } from '@/interfaces/ICaminhoes';
 import SelectScroll from '@/components/SelectScroll.vue';
 import DatePicker from '@/components/DatePicker.vue';
-import Caminhoes from '@/entities/Caminhoes';
+import Motoristas from '@/entities/Motoristas';
 import { ref, watch } from 'vue';
 
 interface Props {
@@ -70,24 +78,24 @@ const props = defineProps<Props>()
 const open = defineModel<boolean>('open')
 const emit = defineEmits(["close", "filterValues"])
 
-const caminhoesInstance = ref<Caminhoes>(new Caminhoes())
+const motoristasInstance = ref<Motoristas>(new Motoristas())
 
 const submitForm = async () => {
-    emit('filterValues', caminhoesInstance.value.toJSON())
+    emit('filterValues', motoristasInstance.value.toJSON())
     emit('close', false)
 }
 
 const clearForm = () => {
-    caminhoesInstance.value.clear()
+    motoristasInstance.value.clear()
 }
 
 watch(() => props.open, (value: boolean) => {
     if (!value) {
-        Object.assign(caminhoesInstance.value, new Caminhoes())
+        Object.assign(motoristasInstance.value, new Motoristas())
         return
     }
     if (props.items) {
-        Object.assign(caminhoesInstance.value, props.items)
+        Object.assign(motoristasInstance.value, props.items)
     }
 })
 

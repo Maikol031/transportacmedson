@@ -18,17 +18,28 @@ import { ref } from 'vue';
 
 
 const columns = ref<any[]>([
+  { key: 'nroContrato', label: 'Nro. Contrato' },
+  { key: 'cliente', label: 'Cliente' },
+  { key: 'dtEmiss', label: 'Data Emissão' },
+  { key: 'dtSaida', label: 'Data Saída' },
+  { key: 'origem', label: 'Origem' },
+  { key: 'destino', label: 'Destino' },
   { key: 'placa', label: 'Placa' },
-  { key: 'modelo', label: 'Modelo', maxWidth: '20rem' },
+  { key: 'peso', label: 'Peso (KG)' },
+  { key: 'vlUnit', label: 'Vlr. Unitário' },
+  { key: 'vlTot', label: 'Vlr. Total' },
+  { key: 'vlPago', label: 'Vlr. Pago' },
+  { key: 'statusV', label: 'Status Viagem' },
+  { key: 'statusC', label: 'Status Contrato' },
 ])
 
 
 const items = ref([
-  {
-    id: 1,
-    placa: 'HBZ-1235',
-    modelo: 'HBZ-1235',
-  },
+  // {
+  //   id: 1,
+  //   placa: 'HBZ-1235',
+  //   modelo: 'HBZ-1235',
+  // },
 ])
 
 </script>

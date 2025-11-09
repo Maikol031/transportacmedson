@@ -10,7 +10,7 @@
                         <InputTextDefault v-model:model="caminhoesInstance.placa" :disabled="disabled" />
                     </LabelValidation>
 
-                    <LabelValidation label="Modelo" class="w-full"
+                    <LabelValidation label="Marca" class="w-full"
                         :message="(v$?.modelo?.$errors[0]?.$message) as string || ''">
                         <InputTextDefault v-model:model="caminhoesInstance.modelo" :disabled="disabled" />
                     </LabelValidation>
@@ -19,42 +19,27 @@
 
                 <div class="columns">
 
+                    <LabelValidation label="Modelo" class="w-full"
+                        :message="(v$?.modelo?.$errors[0]?.$message) as string || ''">
+                        <InputTextDefault v-model:model="caminhoesInstance.modelo" :disabled="disabled" />
+                    </LabelValidation>
+
                     <LabelValidation label="Data Venc. Tacografo" class="w-full md:w-90"
                         :message="(v$?.dataVencTacografo?.$errors[0]?.$message) as string || ''">
                         <DatePicker v-model="caminhoesInstance.dataVencTacografo" :disabled="disabled" />
                     </LabelValidation>
 
+                </div>
+
+                <div class="columns">
                     <LabelValidation label="Kilometragem" class="w-full"
                         :message="(v$?.kilometragem?.$errors[0]?.$message) as string || ''">
                         <InputTextDefault v-model:model="caminhoesInstance.kilometragem" :disabled="disabled" />
                     </LabelValidation>
 
-                </div>
-
-                <div class="columns">
-
-                    <LabelValidation label="Emissão AET" class="w-full md:w-90"
-                        :message="(v$?.emissaoAet?.$errors[0]?.$message) as string || ''">
-                        <DatePicker v-model="caminhoesInstance.emissaoAet" :disabled="disabled" />
-                    </LabelValidation>
-
-                    <LabelValidation label="Número AET" class="w-full"
-                        :message="(v$?.numeroAet?.$errors[0]?.$message) as string || ''">
-                        <InputTextDefault v-model:model="caminhoesInstance.numeroAet" :disabled="disabled" />
-                    </LabelValidation>
-
-                </div>
-
-                <div class="columns">
-
                     <LabelValidation label="Validade AET" class="w-full md:w-90"
                         :message="(v$?.validadeAet?.$errors[0]?.$message) as string || ''">
-                        <DatePicker v-model="caminhoesInstance.validadeAet" :disabled="disabled" />
-                    </LabelValidation>
-
-                    <LabelValidation label="Situação AET" class="w-full"
-                        :message="(v$?.situacaoAet?.$errors[0]?.$message) as string || ''">
-                        <InputTextDefault v-model:model="caminhoesInstance.situacaoAet" :disabled="disabled" />
+                        <DatePicker v-model="caminhoesInstance.dh_inc" :disabled="disabled" />
                     </LabelValidation>
 
                 </div>
@@ -63,10 +48,7 @@
 
         </template>
         <template #actions>
-            <CommonButtonsFooterModal 
-                :method="method" 
-                :disabled="disabled" 
-                form-id="mainForm" @edit-action="editForm"
+            <CommonButtonsFooterModal :method="method" :disabled="disabled" form-id="mainForm" @edit-action="editForm"
                 @clear-form="clearForm" />
         </template>
     </ModalScrollBody>
@@ -125,7 +107,8 @@ watch(() => props.open, (value: boolean) => {
     }
     if (props.method === "edit") {
         console.log(props.items)
-        Object.assign(caminhoesInstance.value, props.items)
+        Object.assign(caminhoesInstance.value, new Caminhoes(props.items))
+        console.log(caminhoesInstance.value)
         fieldsLocked.value = true;
         return
     }

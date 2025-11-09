@@ -1,52 +1,55 @@
 <template>
   <div class="space-y-4">
 
-    <CommonActionsHeader
-      :is-filter-btn="true"
-      :is-new-register-btn="true"
-      @filter="openModal('filter')"
-      @new-register="openModal('add')"
-    />
+    <CommonActionsHeader :is-filter-btn="true" :is-new-register-btn="true" @filter="openModal('filter')"
+      @new-register="openModal('add')" />
 
-    <DynamicTable :columns="columns" :items="items" :enableTooltip="true">
+
+  <DynamicTableV2 :columns="columns" :items="items" :enableTooltip="true">
       <template #actions="{ row }">
-        <DropDownActions
-          :is-excluir="true"
-          @detalhar="openModal('edit', row)"
-        />
+        <DropDownActions :is-excluir="true" @detalhar="openModal('edit', row)" />
       </template>
-    </DynamicTable>
+    </DynamicTableV2>
 
   </div>
 
-  <ModalMotoristas
-    v-model:open="modals.isOpen.actions"
-    :method="modals.method"
+  <ModalMotoristas 
+    v-model:open="modals.isOpen.actions" 
+    :method="modals.method" 
     :items="modals.details"
-    @close="modals.isOpen.actions = $event"
+    @close="modals.isOpen.actions = $event" 
+  />
+    
+  <ModalMotoristasFilter 
+    v-model:open="modals.isOpen.filter" 
+    @close="modals.isOpen.filter = $event" 
   />
 
-  <ModalTrucksFilter v-model:open="modals.isOpen.filter" />
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import ModalTrucksFilter from '@/components/modals/filters/ModalTrucksFilter.vue'
+import ModalMotoristasFilter from '@/components/modals/filters/ModalMotoristasFilter.vue'
 import DropDownActions from '@/components/ui/dropdown-menu/DropDownActions.vue'
+import ModalMotoristas from '@/components/modals/details/ModalMotoristas.vue'
 import CommonActionsHeader from '@/components/CommonActionsHeader.vue'
 import type { ICaminhoes } from '@/interfaces/ICaminhoes'
 import { DynamicTable } from '@/components/ui/table'
 import type { Column } from '@/components/ui/table'
-import ModalMotoristas from '@/components/modals/details/ModalMotoristas.vue'
+import { onMounted, ref } from 'vue'
+import DynamicTableV2 from '@/components/ui/table/DynamicTableV2.vue'
+import DropdownMenuContent from '@/components/ui/dropdown-menu/DropdownMenuContent.vue'
+import DropdownMenuTrigger from '@/components/ui/dropdown-menu/DropdownMenuTrigger.vue'
+import DropdownMenuItem from '@/components/ui/dropdown-menu/DropdownMenuItem.vue'
+import DropdownMenu from '@/components/ui/dropdown-menu/DropdownMenu.vue'
 
 type ModalType = 'add' | 'edit' | 'filter'
 interface ModalProps {
-    isOpen: {
-        filter: boolean
-        actions: boolean
-    }
-    method: "add" | "edit"
-    details: ICaminhoes | {}
+  isOpen: {
+    filter: boolean
+    actions: boolean
+  }
+  method: "add" | "edit"
+  details: ICaminhoes | {}
 }
 
 const modals = ref<ModalProps>({
@@ -81,13 +84,11 @@ const openModal = (type: ModalType, item?: any) => {
 const columns = ref<Column[]>([
   { key: 'nome', label: 'Nome do Motorista' },
   { key: 'cpf', label: 'CPF' },
-  { key: 'cnpj', label: 'CNPJ' },
   { key: 'telefone', label: 'Telefone / WhatsApp' },
   { key: 'cnh', label: 'CNH' },
   { key: 'categoriaCnh', label: 'Categoria CNH', width: '8rem' },
   { key: 'validadeCnh', label: 'Validade CNH', width: '10rem' },
-  { key: 'tipoVinculo', label: 'Tipo de Vínculo', width: '10rem' },
-  { key: 'placaVeiculo', label: 'Placa do Veículo', width: '8rem' },
+  { key: 'exameToxic', label: 'Data Exame Tóxicológico' },
   { key: 'status', label: 'Status', width: '8rem' },
   { key: 'actions', label: 'Ações', width: '80px' }
 ])
@@ -96,15 +97,13 @@ const columns = ref<Column[]>([
 const items = ref([
   {
     id: 1,
-    nome: 'João Pereira da Silva',
+    nome: 'João Pereira da Silvadddddddddddddddddddddddddddddddddddddddddddddddddssssssssssssssssssssssssssss',
     cpf: '123.456.789-00',
-    cnpj: '00.623.904/0001-73',
     telefone: '(11) 98765-4321',
     cnh: '98765432100',
     categoriaCnh: 'E',
     validadeCnh: '2026-05-15',
-    tipoVinculo: 'CLT',
-    placaVeiculo: 'HBZ-1235',
+    exameToxic: '2026-05-15',
     status: 'Ativo'
   },
   {
@@ -115,8 +114,7 @@ const items = ref([
     cnh: '87654321099',
     categoriaCnh: 'D',
     validadeCnh: '2025-09-20',
-    tipoVinculo: 'Agregado',
-    placaVeiculo: 'ABC-4321',
+    exameToxic: '2026-05-15',
     status: 'Ativo'
   },
   {
@@ -127,8 +125,7 @@ const items = ref([
     cnh: '76543210988',
     categoriaCnh: 'E',
     validadeCnh: '2024-12-05',
-    tipoVinculo: 'Autônomo',
-    placaVeiculo: 'XYZ-9876',
+    exameToxic: '2026-05-15',
     status: 'Inativo'
   },
   {
@@ -139,8 +136,7 @@ const items = ref([
     cnh: '65432109877',
     categoriaCnh: 'C',
     validadeCnh: '2025-03-30',
-    tipoVinculo: 'CLT',
-    placaVeiculo: 'DEF-7654',
+    exameToxic: '2026-05-15',
     status: 'Ativo'
   },
   {
@@ -151,8 +147,7 @@ const items = ref([
     cnh: '54321098766',
     categoriaCnh: 'D',
     validadeCnh: '2023-11-30',
-    tipoVinculo: 'Autônomo',
-    placaVeiculo: 'GHI-2468',
+    exameToxic: '2026-05-15',
     status: 'Inativo'
   }
 ])

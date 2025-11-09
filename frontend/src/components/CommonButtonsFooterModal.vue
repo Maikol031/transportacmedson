@@ -23,6 +23,14 @@
             Editar
         </button>
 
+        <button v-if="method === 'filter'" @click="$emit('filterAction')"
+            type="submit" 
+            :form="formId"
+            class="flex gap-x-3 items-center bg-blue-600 text-white p-2 rounded-sm cursor-pointer hover:bg-blue-700 duration-300">
+            <Edit class="text-white w-5 h-5" />
+            Filtrar
+        </button>
+
     </div>
 
 
@@ -31,12 +39,12 @@
 import { Save, Eraser, Edit } from "lucide-vue-next";
 
 interface Props {
-    method: "add" | "edit"
-    disabled: boolean
+    method: "add" | "edit" | "filter"
+    disabled?: boolean
     formId: string
 }
 
-defineEmits(["editAction", "clearForm"])
+defineEmits(["editAction", "clearForm", "filterAction"])
 defineProps<Props>()
 
 

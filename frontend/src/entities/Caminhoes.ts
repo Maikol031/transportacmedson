@@ -2,6 +2,7 @@ import { R } from "@/validation/rules";
 import { Sanitizer } from '@/utils/Sanitizer'
 import type { ICaminhoes } from "@/interfaces/ICaminhoes";
 import CrudFactory from "./crudFactory/CrudFactory";
+import { formattIsoToDate } from "@/utils/utils";
 
 export default class Caminhoes extends CrudFactory implements ICaminhoes {
     id?: number;
@@ -13,6 +14,7 @@ export default class Caminhoes extends CrudFactory implements ICaminhoes {
     emissaoAet!: string;
     validadeAet!: string;
     situacaoAet!: string;
+    dh_inc!: string;
 
     readonly rules = {
         placa: { required: R.required(), min: R.min(4) },
@@ -26,8 +28,10 @@ export default class Caminhoes extends CrudFactory implements ICaminhoes {
     }
 
     constructor(init?: Partial<ICaminhoes>) {
-        super("/api/cadastro/caminhoes")
-        Object.assign(this, init);
+        super("/caminhoes")
+        Object.assign(this, {...init,
+            dh_inc: init?.dh_inc ? formattIsoToDate(init?.dh_inc) : "" //data de teste, remover
+        });
     }
 
     clear(preserveId: boolean = false) {

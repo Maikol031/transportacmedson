@@ -68,7 +68,7 @@
 </template>
 
 <script setup lang="ts">
-import { Home, ClipboardPlusIcon, ChevronDown, Minus, Users, User, Fuel, Clipboard, Truck } from "lucide-vue-next"
+import { FileText, ClipboardPlusIcon, ChevronDown, Minus, Users, User, Fuel, Clipboard, Truck } from "lucide-vue-next"
 import { TruckIcon } from '@heroicons/vue/24/outline';
 import {
   Sidebar,
@@ -89,9 +89,9 @@ import { ref } from "vue";
 // Menu items.
 const items = [
   {
-    title: "Home",
+    title: "Contratos",
     url: "#",
-    icon: Home,
+    icon: FileText,
   },
 ];
 

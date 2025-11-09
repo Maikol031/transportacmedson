@@ -8,4 +8,5 @@ export interface ICaminhoes {
     emissaoAet: string;
     validadeAet: string;
     situacaoAet: string;
+    dh_inc: string;
 }

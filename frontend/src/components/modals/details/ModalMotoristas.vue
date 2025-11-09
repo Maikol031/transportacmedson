@@ -26,50 +26,24 @@
                             mask="telefone" :max-length="15" />
                     </LabelValidation>
 
-                    <LabelValidation label="CNPJ" class="w-full"
-                        :message="(v$?.cnpj?.$errors[0]?.$message) as string || ''">
-                        <InputTextDefault v-model:model="motoristasInstance.cnpj" :disabled="disabled" mask="cnpj"
-                            :max-length="18" />
+                    <LabelValidation label="CNH" class="w-full"
+                        :message="(v$?.cnh?.$errors[0]?.$message) as string || ''">
+                        <InputTextDefault v-model:model="motoristasInstance.cnh" :disabled="disabled" mask="cnh" />
                     </LabelValidation>
 
                 </div>
 
                 <div class="columns">
-
-                    <LabelValidation label="CNH" class="w-full"
-                        :message="(v$?.cnh?.$errors[0]?.$message) as string || ''">
-                        <InputTextDefault v-model:model="motoristasInstance.cnh" :disabled="disabled" mask="cnh" />
-                    </LabelValidation>
 
                     <LabelValidation label="Validade CNH" class="w-full"
                         :message="(v$?.validadeCnh?.$errors[0]?.$message) as string || ''">
                         <DatePicker v-model="motoristasInstance.validadeCnh" :disabled="disabled" />
                     </LabelValidation>
 
-
-                </div>
-
-                <div class="columns">
-                    <LabelValidation label="Placa do Veículo" class="w-full"
-                        :message="(v$?.placaVeiculo?.$errors[0]?.$message) as string || ''">
-                        <InputTextDefault v-model:model="motoristasInstance.placaVeiculo" :disabled="disabled" />
-                    </LabelValidation>
-
                     <LabelValidation label="Categoria CNH" class="w-full"
                         :message="(v$?.categoriaCnh?.$errors[0]?.$message) as string || ''">
                         <InputTextDefault v-model:model="motoristasInstance.categoriaCnh" :disabled="disabled" />
                     </LabelValidation>
-
-
-
-                </div>
-                <div class="columns">
-
-                    <LabelValidation label="Tipo de Vínculo" class="w-full"
-                        :message="(v$?.tipoVinculo?.$errors[0]?.$message) as string || ''">
-                        <InputTextDefault v-model:model="motoristasInstance.tipoVinculo" :disabled="disabled" />
-                    </LabelValidation>
-
 
                     <LabelValidation label="Status" class="w-full"
                         :message="(v$?.status?.$errors[0]?.$message) as string || ''">
@@ -95,12 +69,12 @@ import InputTextDefault from '@/components/ui/input/InputTextDefault.vue';
 import ModalScrollBody from '@/components/ModalScrollBody.vue';
 import LabelValidation from '@/components/LabelValidation.vue';
 import type { ICaminhoes } from '@/interfaces/ICaminhoes';
+import SelectScroll from '@/components/SelectScroll.vue';
 import DatePicker from '@/components/DatePicker.vue';
 import { useVuelidate } from '@vuelidate/core';
 import Motoristas from '@/entities/Motoristas';
 import { ref, watch } from 'vue';
 import { computed } from 'vue';
-import SelectScroll from '@/components/SelectScroll.vue';
 
 interface Props {
     open: boolean
