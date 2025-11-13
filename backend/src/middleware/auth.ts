@@ -4,21 +4,16 @@ import { AuthPayload } from "../@types/express"; // se necessário ajuste o cami
 
 export default function authMiddleware(req: Request, res: Response, next: NextFunction) {
     const authHeader = req.headers.authorization;
+    const token = authHeader?.split(" ")[1];
 
-    if (!authHeader) {
-        return res.status(401).json({ error: "Token não enviado" });
-    }
+    if (!token) return res.status(401).json({ message: "Token não fornecido" });
 
-    const [, token] = authHeader.split(" ");
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET!, (err: any, decoded: any) => {
+        if (err) return res.status(401).json({ error: "Token inválido ou expirado" });
 
-    try {
-        
-        const decoded = jwt.verify(token, process.env.JWT_SECRET!) as AuthPayload;
-        req.user = decoded; // <-- agora qualquer rota pode acessar req.user
+        req.user = decoded;
         next();
-    } catch {
-        return res.status(401).json({ error: "Token inválido ou expirado" });
-    }
+    });
 }
 
 export function onlyAdmin(req: Request, res: Response, next: NextFunction) {

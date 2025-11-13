@@ -1,14 +1,13 @@
-GET http://localhost:3334/api/caminhoes?page=1&limit=10
-
-###
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzYyODMyNzc3LCJleHAiOjE3NjI4MzM2Nzd9.rD_jAud-6rlb7x8ELiQ4cwFGsNAqvX-oSud0DuGXC1w
 
 POST http://localhost:3334/api/caminhoes
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
-  "placa": "ABC-12346",
-  "renavam": "12345678902",
-  "marca": "Volvo",
+  "placa": "ABC-22346",
+  "renavam": "12345678903",
+  "marca": "Mercedes-Benz",
   "modelo": "FH16",
   "licenciamento": 2023,
   "aets": "AETS123456"  
@@ -16,8 +15,9 @@ Content-Type: application/json
 
 ###
 
-PUT http://localhost:3334/api/caminhoes/4
+PUT http://localhost:3334/api/caminhoes/3
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
   "placa": "ABC-45678",
@@ -30,3 +30,40 @@ Content-Type: application/json
 ###
 
 DELETE http://localhost:3334/api/caminhoes/4
+Authorization: Bearer {{token}}
+
+###
+
+POST http://localhost:3334/auth/register
+Content-Type: application/json
+
+{
+  "email": "matheusgomes110@otmail.co",
+  "senha": "Mg?1234567",
+  "role": "admin"
+}
+
+### LOGIN
+# @name login
+POST http://localhost:3334/auth/login
+Content-Type: application/json
+
+{
+  "email": "matheusgomes110@hotmail.com",
+  "senha": "Mg?1234567"
+}
+
+### REFRESH TOKEN
+POST http://localhost:3334/auth/refresh
+Content-Type: application/json
+
+###
+
+GET http://localhost:3334/api/caminhoes?page=1&limit=10
+# Authorization: Bearer {{login.response.body.token}}
+Authorization: Bearer {{token}}
+
+### TESTE ERRO LOGGER
+
+GET http://localhost:3334/api/erro-teste
+Authorization: Bearer {{token}}

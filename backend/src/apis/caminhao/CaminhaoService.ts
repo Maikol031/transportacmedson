@@ -113,4 +113,5 @@ export default class CaminhaoService {
   async delete(id: string) {
     await sql`DELETE FROM CAMINHAO WHERE ID = ${id}`;
   }
+  
 }
