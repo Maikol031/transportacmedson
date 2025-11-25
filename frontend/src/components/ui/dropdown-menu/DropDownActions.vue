@@ -1,14 +1,14 @@
 <template>
     <DropdownMenu>
-        <DropdownMenuTrigger>
-            <EllipsisVertical class="w-5 h-5 text-gray-600 hidden md:inline" />
+        <DropdownMenuTrigger class="flex hover:bg-slate-200 w-8 h-8 rounded-full items-center justify-center cursor-pointer">
+            <EllipsisVertical class="w-4 h-4 text-gray-600 hidden md:inline" />
             <EllipsisIcon class="w-5 h-5 text-gray-600 md:hidden" />
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
+        <DropdownMenuContent class="mr-10">
             <DropdownMenuLabel>Ações</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem v-if="isDetalhar" @click="$emit('detalhar')" class="cursor-pointer flex justify-between">
-                Detalhar
+                Resumo de Pagamentos
                 <BookOpenText />
             </DropdownMenuItem>
             <DropdownMenuItem v-if="isExcluir" @click="$emit('excluir')" class="cursor-pointer flex justify-between">

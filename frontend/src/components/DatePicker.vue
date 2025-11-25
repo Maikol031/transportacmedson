@@ -10,7 +10,7 @@
         :disabled="disabled"
       >
         <CalendarIcon class="mr-2 h-4 w-4" />
-        {{ dateValue ? df.format(dateValue.toDate(getLocalTimeZone())) : "Selecione uma Data" }}
+        {{ dateValue ? df.format(dateValue.toDate(getLocalTimeZone())) : " DD/MM/YYYY" }}
       </Button>
     </PopoverTrigger>
     <PopoverContent class="w-auto p-0">
@@ -34,7 +34,7 @@ import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 
 const df = new DateFormatter("pt-BR", {
-  dateStyle: "long",
+  dateStyle: "short",
 })
 
 interface Props {

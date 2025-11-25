@@ -51,6 +51,7 @@ export default class Caminhoes extends CrudFactory implements ICaminhoes {
             emissaoAet: this.emissaoAet,
             validadeAet: this.validadeAet,
             situacaoAet: this.situacaoAet,
+            dh_inc: this.dh_inc
         })
     }
 

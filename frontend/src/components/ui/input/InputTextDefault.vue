@@ -1,6 +1,7 @@
 <template>
   <input 
     v-model="maskedValue"
+    :placeholder="placeholder"
     :disabled="disabled" 
     :type="type"
     :maxlength="maxLength"
@@ -20,6 +21,7 @@ interface Props {
   customizeClass?: string
   disabled?: boolean
   maxLength?: number
+  placeholder?: string
   /**
    * Tipos de máscara disponíveis:
    * - 'cpf'

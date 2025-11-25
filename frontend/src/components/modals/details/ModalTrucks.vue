@@ -83,7 +83,7 @@ const v$ = useVuelidate(caminhoesInstance.value.rules, caminhoesInstance.value)
 
 const submitForm = async () => {
     const valid = await v$.value.$validate()
-    caminhoesInstance.value.create(caminhoesInstance.value.toJSON())
+    caminhoesInstance.value.post(caminhoesInstance.value.toJSON())
     if (!valid) {
         return
     }

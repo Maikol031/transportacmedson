@@ -90,7 +90,7 @@ import { ref } from "vue";
 const items = [
   {
     title: "Contratos",
-    url: "#",
+    url: "/",
     icon: FileText,
   },
 ];
@@ -103,7 +103,7 @@ const cadastroModule = [
   },
   {
     title: "Motoristas",
-    url: "/cadastros/motoristas",
+    url: "/cadastro/motoristas",
     icon: User,
   },
   {
@@ -118,7 +118,7 @@ const cadastroModule = [
   },
   {
     title: "Caminhões",
-    url: "/cadastros/caminhoes",
+    url: "/cadastro/caminhoes",
     icon: Truck,
   },
 ]

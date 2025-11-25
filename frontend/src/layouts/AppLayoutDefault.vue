@@ -15,27 +15,21 @@
         </main>
     </SidebarProvider>
     <Footer />
-    <Loader :is-loading-store="loadingStore" />
+    <Loader :is-loading-store="loading.state.isLoading" />
 </template>
 
 <script setup lang="ts">
 import SidebarProvider from "@/components/ui/sidebar/SidebarProvider.vue";
+import { useLoadingStore } from "@/stores/useLoadingStore";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import Loader from "@/components/ui/loader/Loader.vue";
 import Menu from "@/components/ui/menu/Menu.vue";
 import Footer from "@/components/Footer.vue";
 import { useRoute } from "vue-router";
-import { ref, watch } from "vue";
+import { computed } from "vue";
 
-const loadingStore = ref<boolean>(false);
+const loading = useLoadingStore();
 const route = useRoute();
-const title = ref<string>("");
-
-watch(() => route.meta.title, (value) => {
-    title.value = String(value);
-});
-
-
-
+const title = computed(() => route.meta.title ?? "");
 
 </script>

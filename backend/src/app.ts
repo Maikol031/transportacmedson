@@ -4,8 +4,9 @@ import route from "./routes/router";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import cookieParser from "cookie-parser";
-import authRoutes from "./routes/authRoute";
+import authRoute from "./routes/authRoute";
 import errorLogger from "./middleware/erroLogger";
+import authMiddleware from "./middleware/auth";
 
 const app: Application = express();
 
@@ -16,7 +17,7 @@ const corsOptions: cors.CorsOptions = {
 
 const authLimiter = rateLimit({
     windowMs: 1 * 60 * 1000,
-    max: 5, 
+    max: 30, 
     message: "Limite de tentativas excedido. Tente novamente em alguns minutos."
 });
 
@@ -34,10 +35,9 @@ app.use(cors({
 }));
 
 app.use(helmet());
-app.use("/auth/login", authLimiter);
+app.use("/api", authLimiter, authRoute);
+app.use("/api", authMiddleware, route);
 
-app.use(authRoutes);
-app.use(route);
 
 app.use(errorLogger);
 

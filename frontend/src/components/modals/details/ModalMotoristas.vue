@@ -94,7 +94,7 @@ const v$ = useVuelidate(motoristasInstance.value.rules, motoristasInstance.value
 
 const submitForm = async () => {
     const valid = await v$.value.$validate()
-    motoristasInstance.value.create(motoristasInstance.value.toJSON())
+    motoristasInstance.value.post(motoristasInstance.value.toJSON())
     if (!valid) {
         return
     }

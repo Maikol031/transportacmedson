@@ -1,6 +1,6 @@
 <template>
   <Select>
-    <SelectTrigger class="w-full !h-10 rounded-sm disabled:bg-gray-200" :disabled="disabled">
+    <SelectTrigger :class="['w-full !h-10 rounded-sm disabled:bg-gray-200', customizeClass ? customizeClass : '']" :disabled="disabled">
       <SelectValue :placeholder="placeholder" />
     </SelectTrigger>
     <SelectContent>
@@ -38,8 +38,9 @@ const props = defineProps<{
   }[]
   placeholder?: string
   disabled?: boolean
+  customizeClass?: string
 }>()
 
-const placeholder = props.placeholder ?? 'Select an option'
+const placeholder = props.placeholder ?? 'Selecione uma opção'
 
 </script>

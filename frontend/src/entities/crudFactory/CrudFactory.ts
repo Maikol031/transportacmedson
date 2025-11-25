@@ -8,12 +8,19 @@ export default class CrudFactory implements ICrudFactory {
         this.url = url
     }
 
-    async create(body: any, headers?: any, config?: any) {
-        // console.log(body, this.url)
-        // return api.post(this.url, body, { headers, ...config })
+    async post(body: any, headers?: any, config?: any) {
+        return api.post(this.url, body, {
+            withCredentials: true,
+            ...config,
+            headers: {
+                ...(config?.headers || {}),
+                ...(headers || {})
+            }
+        });
     }
 
-    async update(id: number, body: any, headers?: any, config?: any) {
+
+    async put(id: number, body: any, headers?: any, config?: any) {
         // return api.put(`${this.url}/${id}`, body, { headers, ...config })
     }
 
@@ -21,7 +28,7 @@ export default class CrudFactory implements ICrudFactory {
         // return api.delete(`${this.url}/${id}`, { headers, ...config })
     }
 
-    async read(headers?: any, config?: any) {
+    async get(headers?: any, config?: any) {
         return api.get(this.url, { headers, ...config })
     }
 
