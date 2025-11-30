@@ -1,4 +1,4 @@
-import { Router, Request, Response  } from "express";
+import { Router } from "express";
 import caminhaoRoute from "./caminhaoRoute";
 import motoristaRoute from "./motoristaRoute";
 import clienteRoute from "./clienteRoute";
@@ -9,8 +9,9 @@ import authMiddleware from "../middleware/auth";
 import { logAcesso } from "../middleware/logAcesso";
 import testeRouter from "./testeRoutes";
 
+
 const routes = Router();
-const authController = new AuthController();
+
 
 // ROTAS PÚBLICAS
 // routes.post("/auth/register", (req, res) => authController.register(req, res));

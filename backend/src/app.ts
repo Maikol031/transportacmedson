@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import authRoutes from "./routes/authRoute";
 import passwordRoutes from "./routes/passwordResetRoute";
 import errorLogger from "./middleware/erroLogger";
+import authMiddleware from "./middleware/auth";
 
 const app: Application = express();
 

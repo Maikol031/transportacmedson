@@ -41,22 +41,30 @@
                         <form class="space-y-4" @submit.prevent="login">
                             <div>
 
-                                <InputWithLabel
-                                    v-model="loginInstance.email"
-                                    label="E-mail" 
-                                    place-holder="E-mail"
-                                />
+                                <LabelValidation label="E-mail"
+                                    :message="(v$?.email?.$errors[0]?.$message) as string || ''">
+
+                                    <input 
+                                        v-model="loginInstance.email" 
+                                        placeholder="E-mail"
+                                        type="text" 
+                                        class="w-full rounded-sm px-2 h-10 border-[0.5px] border-gray-200 focus:border-[0.5px]  disabled:bg-gray-100 disabled:border-none disabled:text-gray-400"
+                                    >
+
+                                </LabelValidation>
 
                             </div>
 
                             <div class="relative">
-
-                                <InputWithLabel
-                                    v-model="loginInstance.password"
-                                    :type="isTypePassword ? 'password' : 'text'"
-                                    label="Senha" 
-                                    place-holder="Senha"
-                                />
+                                <LabelValidation label="Senha"
+                                    :message="(v$?.senha?.$errors[0]?.$message) as string || ''">
+                                    <input 
+                                        v-model="loginInstance.senha" 
+                                        placeholder="Senha"
+                                        :type="isTypePassword ? 'password' : 'text'" 
+                                        class="w-full rounded-sm px-2 h-10 border-[0.5px] border-gray-200 focus:border-[0.5px]  disabled:bg-gray-100 disabled:border-none disabled:text-gray-400
+                                    ">
+                                </LabelValidation>
 
                                 <button type="button" @click="isTypePassword = !isTypePassword"
                                     class="absolute inset-y-11 right-2 flex items-center text-gray-500 hover:text-main focus:outline-none cursor-pointer">
@@ -104,19 +112,21 @@
 <script setup lang="ts">
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { TruckIcon, UserCircleIcon, EyeIcon, EyeSlashIcon } from '@heroicons/vue/24/outline';
+import LabelValidation from '@/components/LabelValidation.vue';
+import { useVuelidate } from '@vuelidate/core';
 import Footer from "@/components/Footer.vue";
-import { ref } from 'vue';
 import Login from '@/entities/Login';
-import InputWithLabel from '@/components/ui/input/InputWithLabel.vue';
+import { onMounted, ref } from 'vue';
 
 
 const isTypePassword = ref<boolean>(true);
-
 const loginInstance = ref<Login>(new Login());
-
-
-const login = () => {
-    console.log(loginInstance.value)
+const v$ = useVuelidate(loginInstance.value.rules, loginInstance.value)
+const login = async () => {
+    const valid = await v$.value.$validate()
+    if (!valid) {
+        return
+    }
+    await loginInstance.value.login(loginInstance.value.toJson())
 }
-
 </script>

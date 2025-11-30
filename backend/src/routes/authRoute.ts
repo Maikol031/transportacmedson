@@ -1,14 +1,15 @@
-import { Router } from "express";
 import AuthController from "../controllers/AuthController";
 import validateRefresh from "../middleware/validateRefresh";
 import authLimiter from "../rateLimites/authLimiter";
 import refreshLimiter from "../rateLimites/refreshLimiter";
+import { Request, Response } from "express";
+import { Router } from "express";
 
-const router = Router();
+const authRoute = Router();
 const authController = new AuthController();
 
-router.post("/auth/login", authLimiter, authController.login);
-router.post("/auth/refresh", validateRefresh, authController.refresh);
-router.post("/auth/logout", refreshLimiter, authController.logout);
+authRoute.post("/auth/login", authLimiter, authController.login);
+authRoute.post("/auth/refresh", validateRefresh, authController.refresh);
+authRoute.post("/auth/logout", refreshLimiter, authController.logout);
 
-export default router;
+export default authRoute;
