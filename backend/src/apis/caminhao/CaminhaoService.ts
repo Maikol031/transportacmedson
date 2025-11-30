@@ -48,7 +48,7 @@ export default class CaminhaoService {
     const { page = 1, pageSize = 10 } = queryParams;
 
     const [{ total }] = await sql<{ total: number }[]>`
-      SELECT COUNT(*)::int AS total FROM CAMINHAO
+      SELECT COUNT(*)::int AS TOTAL FROM CAMINHAO
     `;
 
     const offset = (Number(page) - 1) * Number(pageSize);
@@ -65,7 +65,7 @@ export default class CaminhaoService {
 
   async create(caminhao: Caminhao) {
     const [inserted] = await sql<ICaminhaoDB[]>`
-      INSERT INTO CAMINHAO (placa, marca, modelo, licenciamento, aets, renavam)
+      INSERT INTO CAMINHAO (PLACA, MARCA, MODELO, LICENCIAMENTO, AETS, RENAVAM)
       VALUES (${caminhao.placa}, ${caminhao.marca}, ${caminhao.modelo},
               ${caminhao.licenciamento}, ${caminhao.aets}, ${caminhao.renavam})
       RETURNING *;

@@ -1,0 +1,12 @@
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzY0MDM4NjgyLCJleHAiOjE3NjQwMzk1ODJ9.y6JgVZc2q-nIjVKtQhBGgZTg8ihRseDazUpI6tg85m0
+
+POST http://localhost:3334/api/postos
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "nome": "Quitandinha",
+  "cnpj": "32083687000162",
+  "cidade_id": "28",
+  "cep": "14801020"
+}

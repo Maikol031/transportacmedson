@@ -1,0 +1,44 @@
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzY0NTIyMjk3LCJleHAiOjE3NjQ1MjMxOTd9.Oi92BVRaYCNZmvxzDEg4Ri5_cE78Ua2UMD20kVK1FC0
+
+### LOGIN
+# @name login
+POST http://localhost:3334/auth/login
+Content-Type: application/json
+
+{
+  "email": "matheusgomes110@hotmail.com",
+  "senha": "Mg?1234567"
+}
+
+###
+GET http://localhost:3334/api/contratos?page=1&limit=10&origemId=17&destinoId=19
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### 
+POST http://localhost:3334/api/contratos
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "nro_contrato": "10",
+    "cliente_id": 6,
+    "origem_id": 17,
+    "destino_id": 19,
+    "caminhao_id": 7,
+    "data_emissao": "10/01/2025",
+    "data_saida": "12/01/2025",
+    "peso": 100,
+    "vlr_unitario": 50,
+    "vlr_total": 5000,
+    "vlr_pago": 0
+}
+
+### 
+DELETE http://localhost:3334/api/contratos
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "ids": [2]
+}

@@ -1,4 +1,4 @@
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzYyODMyNzc3LCJleHAiOjE3NjI4MzM2Nzd9.rD_jAud-6rlb7x8ELiQ4cwFGsNAqvX-oSud0DuGXC1w
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzY0MTI1NDI3LCJleHAiOjE3NjQxMjYzMjd9.1pCSSta0bbFm8HFjIwQ1cOqWO1mfxkF-ZG_sOamZ3gw
 
 POST http://localhost:3334/api/caminhoes
 Content-Type: application/json
@@ -29,7 +29,7 @@ Authorization: Bearer {{token}}
 
 ###
 
-DELETE http://localhost:3334/api/caminhoes/4
+DELETE http://localhost:3334/api/caminhoes/3
 Authorization: Bearer {{token}}
 
 ###
@@ -56,6 +56,10 @@ Content-Type: application/json
 ### REFRESH TOKEN
 POST http://localhost:3334/auth/refresh
 Content-Type: application/json
+
+{
+  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzYzMjQ3MTc5LCJleHAiOjE3NjMyNDgwNzl9.G470Qy4WvHz3ipveTCeHfrQ7Q4oOo6Wkb_C-CSQDWva"
+}
 
 ###
 

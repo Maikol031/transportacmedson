@@ -153,5 +153,4 @@ export default class AuthController {
 
         return res.json({ message: "Logout ok" });
     }
-
 }

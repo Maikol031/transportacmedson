@@ -1,0 +1,69 @@
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzY0NTI1Njk2LCJleHAiOjE3NjQ1MjY1OTZ9.E6kS5fBuXj76vqxKJkxPadkYuLlQ9FWld9u9nL6wTLg
+
+### LOGIN
+# @name login
+POST http://localhost:3334/auth/login
+Content-Type: application/json
+
+{
+  "email": "matheusgomes110@hotmail.com",
+  "senha": "Mg?1234567"
+}
+
+### 
+
+GET http://localhost:3334/api/clientes/search/matheus
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### 
+
+POST http://localhost:3334/api/clientes
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "nome": "Maikol Amaro de Paula",
+  "razao_social": "Maikol LTDA",
+  "documento": "49770203830",
+  "email": "maikoldepula@gmail.com",
+  "celular": "16988486915"
+}
+
+###
+
+POST http://localhost:3334/api/clientes
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "nome": "Matheus Gomes Fernandes",
+  "razao_social": "Matheus LTDA",
+  "documento": "47906697855",
+  "email": "matheusgomes110@hotmail.com",
+  "celular": "16997883547"
+}
+
+###
+
+PUT http://localhost:3334/api/clientes/5
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "nome": "Matheus Gomes Fernandes",
+  "razao_social": "Matheus LTDA",
+  "documento": "47906697854",
+  "email": "matheusgomes111@hotmail.com",
+  "celular": "16997883547"
+}
+
+###
+
+DELETE http://localhost:3334/api/clientes
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "ids": [1, 2, 3]
+}
