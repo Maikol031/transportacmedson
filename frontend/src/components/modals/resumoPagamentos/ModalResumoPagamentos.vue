@@ -1,10 +1,16 @@
 <template>
     <ModalScrollBody v-model:open="open" :title="method === 'add' ? 'Resumo de Pagamentos' : 'Editar'"
         :subTitle="'Contrato 484554 Pendente'" :is-show-footer="false" size-modal="md:max-w-[1000px]"
-        customize-class="bg-green-500 text-white"
-        >
+        customize-class="bg-orange-500 text-white">
         <template #body>
+            <div class="flex justify-between items-center pb-6">
+                <span class="text-gray-500">
+                    Dica: clique duas vezes sobre um registro para detalhar/editar.
+                </span>
+                <CommonActionsHeader :is-new-register-btn="true" :is-delete-btn="true" :count-items="countSelected"
+                    @newRegister="openModal('add')" />
 
+            </div>
             <div class="border border-x-0 rounded overflow-hidden">
 
                 <div class="hidden sm:block max-h-48 overflow-y-auto" ref="scrollArea">
@@ -15,47 +21,28 @@
                                 <th class="w-10"></th>
                                 <th class="text-left px-3 w-full">Tipo de Despesa</th>
                                 <th class="text-left px-3 w-full">Valor</th>
-                                <th class="text-left px-3 w-full">Placa</th> <!-- Tipo de Despesa 0- abastecimento || 1- avaria -->
-                                <th class="text-left px-3 w-full">Posto</th> <!-- Tipo de Despesa 0- abastecimento -->
+                                <th class="text-left px-3 w-full">Placa</th>
+                                <th class="text-left px-3 w-full">Posto</th>
                                 <th class="text-left px-3 w-full">Data Pagamento</th>
                             </tr>
                         </thead>
 
                         <tbody>
 
-                            <tr v-for="item in items" :key="item.id" class="border-b h-10 hover:bg-gray-50 transition">
-                                <td class="px-3 w-16 text-center">
-                                    <input class="size-4" type="checkbox" v-model="item.selected" />
+                            <tr v-for="item in items" :key="item.id"   
+                                @dblclick="openModal('edit', item)"
+                                class="border-b h-10 hover:bg-gray-50 transition cursor-pointer"
+                            >
+                            
+                                <td class="px-3 w-16 text-center" @click.stop @dblclick.stop>
+                                    <input type="checkbox" v-model="selectedRows" :value="item.id">
                                 </td>
-                                <td class="px-3 w-40" :title="item.tpPgto">{{ item.tpPgto }}</td>
-                                <td class="px-3 w-28" :title="formatMoney(item.vlPgto)">{{ formatMoney(item.vlPgto) }}</td>
-                                <td class="px-3 w-28" :title="'NS6-15151'">NS6-15151</td>
-                                <td class="px-3 w-64 truncate" :title="'TONINHO FORMIGASSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS'">TONINHO FORMIGASSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS</td>
-                                <td class="px-3 w-32">{{ formattIsoToDate(item.dtPgto) }}</td>
+                                <td class="px-3 w-40" :title="formatDesp(item.tipoDespesa)">{{ formatDesp(item.tipoDespesa) }}</td>
+                                <td class="px-3 w-28" :title="formatMoney(item.valor)"> {{ formatMoney(item.valor) }} </td>
+                                <td class="px-3 w-28" :title="item.placa"> {{ item.placa }} </td>
+                                <td class="px-3 w-64 truncate" :title="'Morada do Sol'"> {{ item.posto }} </td>
+                                <td class="px-3 w-32"> {{ formattIsoToDate(item.dtPagamento) }} </td>
 
-                            </tr>
-
-                            <tr v-if="isCreating" class="border-b bg-gray-50">
-                                <th class="w-10"></th>
-
-                                <td class="px-3">
-                                    <SelectScroll customize-class="bg-white"
-                                        :options="[{ label: 'Tipo', items: [{ value: 'Pix', label: 'Pix' }, { value: 'Cheque', label: 'Cheque' }] }]" />
-                                </td>
-                                <td class="px-3">
-                                    <InputCurrency :show-prefix="true" :max-digits="3" class="bg-white" />
-                                </td>
-                                <td class="px-3">
-                                    <SelectScroll customize-class="bg-white"
-                                        :options="[{ label: 'Tipo', items: [{ value: 'Pix', label: 'Pix' }, { value: 'Cheque', label: 'Cheque' }] }]" />
-                                </td>
-                                <td class="px-3">
-                                    <SelectScroll customize-class="bg-white"
-                                        :options="[{ label: 'Tipo', items: [{ value: 'Pix', label: 'Pix' }, { value: 'Cheque', label: 'Cheque' }] }]" />
-                                </td>
-                                <td class="px-3">
-                                    <DatePicker v-model="newItem.dtPgto" :disabled="disabled" />
-                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -64,41 +51,10 @@
                 <div class="sm:hidden max-h-64 overflow-y-auto space-y-2 p-2">
 
                     <div v-for="item in items" :key="item.id" class="border rounded p-3 bg-white shadow-sm">
-                        <p><span class="font-semibold">Valor:</span> R$ {{ item.vlPgto }}</p>
-                        <p><span class="font-semibold">Tipo:</span> {{ item.tpPgto }}</p>
-                        <p><span class="font-semibold">Data:</span> {{ item.dtPgto }}</p>
+                        <p><span class="font-semibold">Valor:</span> R$ {{ item.valor }}</p>
+                        <p><span class="font-semibold">Tipo:</span> {{ formatDesp(item.tipoDespesa) }}</p>
+                        <p><span class="font-semibold">Data:</span> {{ item.dtPagamento }}</p>
                     </div>
-
-                    <div v-if="isCreating" class="border rounded p-3 bg-gray-50 space-y-2">
-                        <div>
-                            <p class="font-semibold">Valor</p>
-                            <InputCurrency :show-prefix="true" :max-digits="3" />
-                        </div>
-
-                        <div>
-                            <p class="font-semibold">Tipo de Pagamento</p>
-                            <SelectScroll
-                                :options="[{ label: 'Tipo', items: [{ value: 'Pix', label: 'Pix' }, { value: 'Cheque', label: 'Cheque' }] }]" />
-                        </div>
-
-                        <div>
-                            <p class="font-semibold">Data de Pagamento</p>
-                            <DatePicker v-model="newItem.dtPgto" :disabled="disabled" />
-                        </div>
-                    </div>
-
-                </div>
-
-                <div v-if="!isCreating" @click="handleCreateClick"
-                    class="cursor-pointer h-10 flex items-center gap-2 px-3 text-gray-600 hover:bg-gray-100 border-t">
-                    <Plus class="text-main" :size="14" />
-                    <span class="text-main">Criar Novo Pagamento</span>
-                </div>
-
-                <div v-if="isCreating" @click="isCreating = false"
-                    class="cursor-pointer h-10 flex items-center gap-2 px-3 text-gray-600 hover:bg-gray-100 border-t">
-                    <Check class="text-green-500" :size="14" />
-                    <span class="text-green-500">Salvar</span>
                 </div>
 
             </div>
@@ -119,34 +75,34 @@
                     <p class="font-light mt-1 sm:mt-0">R$ {{ 100 }}</p>
                 </div>
             </div>
-            <div class="flex mb-4 justify-end items-end w-full">
-                <Button :class="['hidden md:block', countItems ? 'delete-btn' : 'disable-delete-btn']">
-                    <span class="flex items-center gap-x-2 text-md">
-                        <Trash2Icon class="size-5" /> Excluir ({{ countItems }})
-                    </span>
-                </Button>
-            </div>
+
 
         </template>
-        <template #actions>
-            <CommonButtonsFooterModal :method="method" :disabled="disabled" form-id="mainForm" @edit-action="editForm"
-                @clear-form="clearForm" />
-        </template>
+
     </ModalScrollBody>
+    <ModalAcoesPagamentos 
+        v-model:open="modals.isOpen.actions" 
+        :method="modals.method" 
+        :items="modals.details"
+        @close="modals.isOpen.actions = $event" 
+    />
+
+    <ModalConfirmDelete 
+        v-model:open="modals.isOpen.delete" 
+        :count="selectedItems.length"
+    />
+
 </template>
 <script setup lang="ts">
-import CommonButtonsFooterModal from '@/components/CommonButtonsFooterModal.vue';
+import ModalAcoesPagamentos from '../resumoPagamentos/ModalAcoesPagamentos.vue';
+import CommonActionsHeader from '@/components/CommonActionsHeader.vue';
+import ModalConfirmDelete from '@/components/ModalConfirmDelete.vue';
 import ModalScrollBody from '@/components/ModalScrollBody.vue';
-import SelectScroll from '@/components/SelectScroll.vue';
-import DatePicker from '@/components/DatePicker.vue';
-import { useVuelidate } from '@vuelidate/core';
-import Motoristas from '@/entities/Motoristas';
-import { Plus, Check, Trash2Icon } from 'lucide-vue-next';
+import { formatMoney, formattIsoToDate } from '@/utils/utils';
+import type { IPagamentos } from '@/interfaces/IPagamentos';
+import Pagamentos from '@/entities/Pagamentos';
 import { ref, watch } from 'vue';
 import { computed } from 'vue';
-import Button from '@/components/ui/button/Button.vue';
-import InputCurrency from '@/components/ui/input/InputCurrency.vue';
-import { formatMoney, formattIsoToDate } from '@/utils/utils';
 
 interface Props {
     open: boolean
@@ -155,74 +111,90 @@ interface Props {
 
 const scrollArea = ref<HTMLElement | null>(null)
 
-const items = ref([
-    { id: 1, vlPgto: '200', tpPgto: 'PIX', dtPgto: '2024-01-10', selected: false },
-    { id: 1, vlPgto: '200', tpPgto: 'PIX', dtPgto: '2024-01-10', selected: false },
-    { id: 1, vlPgto: '200', tpPgto: 'PIX', dtPgto: '2024-01-10', selected: false },
-    { id: 1, vlPgto: '200', tpPgto: 'PIX', dtPgto: '2024-01-10', selected: false },
-    { id: 1, vlPgto: '200', tpPgto: 'PIX', dtPgto: '2024-01-10', selected: false },
-    { id: 1, vlPgto: '200', tpPgto: 'PIX', dtPgto: '2024-01-10', selected: false },
-    { id: 1, vlPgto: '200', tpPgto: 'PIX', dtPgto: '2024-01-10', selected: false },
-    { id: 2, vlPgto: '350', tpPgto: 'Dinheiro', dtPgto: '2024-01-08', selected: false }
-])
-
-const countItems = computed(() =>
-    items.value.filter(i => i.selected).length
-)
-
-
-// controla se está criando
-const isCreating = ref(false)
-
-// novo item
-const newItem = ref({
-    vlPgto: "",
-    tpPgto: "",
-    dtPgto: ""
-})
-
-function handleCreateClick() {
-    isCreating.value = true
-
-    // espera o DOM atualizar antes de rolar
-    requestAnimationFrame(() => {
-        if (scrollArea.value) {
-            scrollArea.value.scrollTo({
-                top: scrollArea.value.scrollHeight,
-                behavior: 'smooth'
-            })
-        }
-    })
-}
-
 
 const props = defineProps<Props>()
 const open = defineModel<boolean>('open')
 const emit = defineEmits(["close"])
-const fieldsLocked = ref<boolean>(true);
-const disabled = computed(() => props.method === 'edit' && fieldsLocked.value)
+const selectedItems = ref<(number | string)[]>([]);
 
-const motoristasInstance = ref<Motoristas>(new Motoristas())
+const pagamentosInstance = ref<Pagamentos>(new Pagamentos())
+const selectedRows = ref<(string | number)[]>([])
 
-const v$ = useVuelidate(motoristasInstance.value.rules, motoristasInstance.value)
+const items = ref<IPagamentos[]>([
+  { id: 1, tipoDespesa: "0", valor: 5000, placa: "NS6-15151", dtPagamento: "2024-10-07", posto: "Decio" },
+  { id: 2, tipoDespesa: "2", valor: 0, placa: "ABC-1234", dtPagamento: "2024-10-05", posto: "Morada do Sol" },
+  { id: 3, tipoDespesa: "1", valor: 850, placa: "QWE-9988", dtPagamento: "2024-10-10", posto: "Rede 7" },
+  { id: 4, tipoDespesa: "0", valor: 320, placa: "XYZ-4422", dtPagamento: "2024-10-10", posto: "Morada do Sol" },
+  { id: 5, tipoDespesa: "2", valor: 0, placa: "PLA-7744", dtPagamento: "2024-10-15", posto: "Decio" },
+  { id: 6, tipoDespesa: "1", valor: 1400, placa: "KJD-5521", dtPagamento: "2024-05-19", posto: "Morada do Sol" },
+  { id: 7, tipoDespesa: "0", valor: 270, placa: "HTR-6623", dtPagamento: "2024-10-01", posto: "Rede 7" },
+  { id: 8, tipoDespesa: "2", valor: 0, placa: "MNB-3141", dtPagamento: "2024-10-30", posto: "Decio" },
+  { id: 9, tipoDespesa: "1", valor: 620, placa: "FDS-8820", dtPagamento: "2024-10-22", posto: "Morada do Sol" },
+  { id: 10, tipoDespesa: "0", valor: 450, placa: "JLK-5509", dtPagamento: "2024-10-13", posto: "Rede 7" },
+]);
 
 
-const clearForm = () => {
-    motoristasInstance.value.clear(props.method === "edit")
-    v$.value.$reset()
+
+const formatDesp = (type: string) => {
+    if (type === "0") return "Abastecimento"
+    if (type === "1") return "Avaria"
+    if (type === "2") return "Avaria"
 }
 
-const editForm = () => {
-    fieldsLocked.value = !fieldsLocked.value
-}
 
-watch(() => props.open, (value: boolean) => {
-    if (!value) {
-        Object.assign(motoristasInstance.value, new Motoristas())
-        v$.value.$reset()
-        return
+const countSelected = computed(() => selectedRows.value.length)
+
+
+
+
+
+const modals = ref<ModalProps>({
+    isOpen: {
+        filter: false,
+        actions: false,
+        delete: false,
+    },
+    method: 'add' as 'add' | 'edit',
+    details: {}
+});
+
+
+type ModalType = 'add' | 'edit' | 'filter' | 'delete';
+
+interface ModalProps {
+    isOpen: {
+        filter: boolean
+        actions: boolean
+        delete: boolean
     }
-    Object.assign(motoristasInstance.value, new Motoristas())
+    method: "add" | "edit"
+    details: any | {}
+}
+
+const openModal = (type: ModalType, item?: any) => {
+    const modal: Record<ModalType, () => void> = {
+        add: () => {
+            modals.value.method = 'add';
+            modals.value.isOpen.actions = true;
+        },
+        edit: () => {
+            modals.value.method = 'edit';
+            modals.value.details = item;
+            modals.value.isOpen.actions = true;
+        },
+        filter: () => {
+            modals.value.isOpen.filter = true;
+        },
+        delete: () => {
+            modals.value.isOpen.delete = true;
+        }
+    }
+
+    modal[type]?.();
+}
+
+watch(() => props.open, async (value: boolean) => {
+    // items.value =  await pagamentosInstance.value.get()
 })
 
 
