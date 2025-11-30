@@ -6,15 +6,16 @@ import { sql } from "../db/db_connection";
 import { registerSchema } from "../validations/userValidation";
 import { ZodError } from "zod";
 
+
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET!;
 const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET!;
 
 function generateAccessToken(payload: object) {
-  return jwt.sign(payload, ACCESS_TOKEN_SECRET, { expiresIn: "15m" });
+    return jwt.sign(payload, ACCESS_TOKEN_SECRET, { expiresIn: "15m" });
 }
 
 function generateRefreshToken(payload: object) {
-  return jwt.sign(payload, REFRESH_TOKEN_SECRET, { expiresIn: "7d" });
+    return jwt.sign(payload, REFRESH_TOKEN_SECRET, { expiresIn: "7d" });
 }
 
 export default class AuthController {
@@ -66,7 +67,6 @@ export default class AuthController {
 
     async login(req: Request, res: Response) {
         try {
-
             const { email, senha } = req.body;
 
             if (!email || !senha) {
@@ -106,7 +106,6 @@ export default class AuthController {
 
             return res.json({
                 accessToken,
-                refreshToken,
                 user: { id: user.id, email: user.email, role: user.role }
             });
 
@@ -131,17 +130,28 @@ export default class AuthController {
             if (err) return res.status(403).json({ error: "Token inválido" });
 
             const newAccessToken = generateAccessToken({ id: user.id, role: user.role });
-            return res.json({ accessToken: newAccessToken });
+            return res.json({
+                accessToken: newAccessToken,
+                user: { id: user.id, email: user.email, role: user.role }
+            });
 
         });
     }
 
     async logout(req: Request, res: Response) {
-        res.clearCookie("refreshToken");
+        const refresh = req.cookies?.refreshToken;
+        console.log(refresh)
+        if (refresh) {
+            await sql`UPDATE usuario SET refresh_token = NULL WHERE refresh_token = ${refresh}`;
+        }
 
-        await sql`UPDATE usuario SET refresh_token = NULL WHERE id = ${req.user.id}`;
+        res.clearCookie("refreshToken", {
+            httpOnly: true,
+            sameSite: "strict",
+            secure: true,
+        });
 
-        return res.json({ message: "Logout realizado com sucesso" });
+        return res.json({ message: "Logout ok" });
     }
 
 }

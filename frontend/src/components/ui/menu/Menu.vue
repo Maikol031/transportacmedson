@@ -68,7 +68,7 @@
 </template>
 
 <script setup lang="ts">
-import { Home, ClipboardPlusIcon, ChevronDown, Minus, Users, User, Fuel, Clipboard, Truck } from "lucide-vue-next"
+import { FileText, ClipboardPlusIcon, ChevronDown, Minus, Users, User, Fuel, Clipboard, Truck } from "lucide-vue-next"
 import { TruckIcon } from '@heroicons/vue/24/outline';
 import {
   Sidebar,
@@ -89,9 +89,9 @@ import { ref } from "vue";
 // Menu items.
 const items = [
   {
-    title: "Home",
-    url: "#",
-    icon: Home,
+    title: "Contratos",
+    url: "/",
+    icon: FileText,
   },
 ];
 
@@ -103,7 +103,7 @@ const cadastroModule = [
   },
   {
     title: "Motoristas",
-    url: "#",
+    url: "/cadastro/motoristas",
     icon: User,
   },
   {
@@ -118,7 +118,7 @@ const cadastroModule = [
   },
   {
     title: "Caminhões",
-    url: "/cadastros/caminhoes",
+    url: "/cadastro/caminhoes",
     icon: Truck,
   },
 ]

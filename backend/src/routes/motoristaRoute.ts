@@ -8,9 +8,9 @@ const motoristaRoute = Router();
 const motoristaService = new MotoristaService();
 const motoristaController = new MotoristaController(motoristaService);
 
-motoristaRoute.get("motoristas", (req, res) => motoristaController.get(req, res));
-motoristaRoute.post("motoristas", (req, res) => motoristaController.create(req, res));
-motoristaRoute.put("motoristas/:id", (req, res) => motoristaController.update(req, res));
-motoristaRoute.delete("motoristas/:id", (req, res) => motoristaController.delete(req, res));
+motoristaRoute.get("/motoristas", (req, res) => motoristaController.get(req, res));
+motoristaRoute.post("/motoristas", (req, res) => motoristaController.create(req, res));
+motoristaRoute.put("/motoristas/:id", (req, res) => motoristaController.update(req, res));
+motoristaRoute.delete("/motoristas/:id", (req, res) => motoristaController.delete(req, res));
 
 export default motoristaRoute;

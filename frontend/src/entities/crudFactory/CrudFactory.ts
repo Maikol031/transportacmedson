@@ -1,33 +1,38 @@
-// import type { ICrudFactory } from "@/interfaces/ICrudFactory";
-// import api from "@/services/AxiosConfig";
+import type { ICrudFactory } from "@/interfaces/ICrudFactory"
+import api from "@/services/AxiosConfig"
+
+export default class CrudFactory implements ICrudFactory {
+    private readonly url: string
+
+    constructor(url: string) {
+        this.url = url
+    }
+
+    async post(body: any, headers?: any, config?: any) {
+        return api.post(this.url, body, {
+            withCredentials: true,
+            ...config,
+            headers: {
+                ...(config?.headers || {}),
+                ...(headers || {})
+            }
+        });
+    }
 
 
-// //precisa ser feito melhoria
+    async put(id: number, body: any, headers?: any, config?: any) {
+        // return api.put(`${this.url}/${id}`, body, { headers, ...config })
+    }
 
-// export default class CrudFactory implements ICrudFactory {
+    async delete(id: number, headers?: any, config?: any) {
+        // return api.delete(`${this.url}/${id}`, { headers, ...config })
+    }
 
-//     private url: string
+    async get(headers?: any, config?: any) {
+        return api.get(this.url, { headers, ...config })
+    }
 
-
-//     constructor(url: string)
-//     {
-//         this.url = url
-//     }
-
-//     create(body: any, headers?: any, config?: any) {
-//         throw new Error("Method not implemented.");
-//     }
-//     update(body: any, headers?: any, config?: any) {
-//         throw new Error("Method not implemented.");
-//     }
-//     delete(headers?: any, config?: any) {
-//         throw new Error("Method not implemented.");
-//     }
-//     read(headers?: any, config?: any) {
-//         throw new Error("Method not implemented.");
-//     }
-//     readWithQueryParams(query: string, headers?: any, config?: any) {
-//         throw new Error("Method not implemented.");
-//     }
-
-// }
+    async readWithQueryParams(query: string, headers?: any, config?: any) {
+        // return api.get(`${this.url}${query}`, { headers, ...config })
+    }
+}

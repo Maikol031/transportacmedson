@@ -10,8 +10,8 @@
         </label>
         <slot :id="label"/>
         <span v-if="message" :class="['flex items-start gap-x-1 mt-1', type === 'error' ? 'text-red-600' : 'text-green-500']">
-            <CircleX v-if="type === 'error'" class="size-2 flex-shrink-0 mt-[4px]"/> 
-            <CircleCheck v-if="type === 'success'" class="size-2 flex-shrink-0 mt-[4px]"/>
+            <CircleX v-if="type === 'error'" class="size-3 flex-shrink-0 mt-[3px]"/> 
+            <CircleCheck v-if="type === 'success'" class="size-3 flex-shrink-0 mt-[3px]"/>
             <span class="break-words leading-snug text-xs">{{ message }}</span>
         </span>
     </div>

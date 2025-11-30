@@ -1,11 +1,12 @@
-import { Router } from "express";
 import AuthController from "../controllers/AuthController";
+import { Request, Response } from "express";
+import { Router } from "express";
 
-const router = Router();
+const authRoute = Router();
 const authController = new AuthController();
 
-router.post("/auth/login", authController.login);
-router.post("/auth/refresh", authController.refresh);
-router.post("/auth/logout", authController.logout);
+authRoute.post("/auth/login", async (req: Request, res: Response) => await authController.login(req, res));
+authRoute.get("/auth/refresh", async (req: Request, res: Response) => await authController.refresh(req, res));
+authRoute.post("/auth/logout", async (req: Request, res: Response) => await authController.logout(req, res));
 
-export default router;
+export default authRoute;

@@ -1,54 +1,106 @@
 <template>
-    <ModalScrollBody 
-        v-model:open="open" 
-        :title="'Filtros'" 
-        :is-show-footer="true"
-    >
-        <template #body>
-            <form id="mainForm" ref="mainForm" @submit.prevent="submitForm($event)" class="flex flex-col gap-y-4">
+    <ModalScrollBody v-model:open="open" :title="'Filtros'" :is-show-footer="true">
+               <template #body>
+            <form id="mainForm" @submit.prevent="submitForm()" class="form">
+
+                <div class="columns">
+
+                    <LabelValidation label="Placa" class="w-full md:w-90">
+                        <InputTextDefault v-model:model="caminhoesInstance.placa"/>
+                    </LabelValidation>
+
+                    <LabelValidation label="Marca" class="w-full">
+                        <InputTextDefault v-model:model="caminhoesInstance.modelo"/>
+                    </LabelValidation>
+
+                </div>
+
+                <div class="columns">
+
+                    <LabelValidation label="Modelo" class="w-full">
+                        <InputTextDefault v-model:model="caminhoesInstance.modelo"/>
+                    </LabelValidation>
+
+                    <LabelValidation label="Data Venc. Tacografo" class="w-full md:w-90">
+                        <DatePicker v-model="caminhoesInstance.dataVencTacografo"/>
+                    </LabelValidation>
+
+                </div>
+
+                <div class="columns">
+                    <LabelValidation label="Kilometragem" class="w-full">
+                        <InputTextDefault v-model:model="caminhoesInstance.kilometragem"/>
+                    </LabelValidation>
+
+                    <LabelValidation label="Validade AET" class="w-full md:w-90">
+                        <DatePicker v-model="caminhoesInstance.dh_inc"/>
+                    </LabelValidation>
+
+                </div>
 
             </form>
-    
+
         </template>
         <template #actions>
-
-            <div class="flex justify-end w-full">
-                <button
-                    class="flex gap-x-3 items-center bg-blue-600 text-white p-2 rounded-sm cursor-pointer hover:bg-blue-700 duration-300"
-                >
-                    <Edit class="text-white w-5 h-5" />
-                    Editar
-                </button>
-                <button
-                    type="submit"
-                    form="mainForm"
-                    class="flex gap-x-3 items-center bg-green-600 text-white p-2 rounded-sm cursor-pointer hover:bg-green-700 duration-300"
-                >
-                    <Save class="text-white w-5 h-5" />
-                    Salvar
-                </button>
-            </div>
-
+            <CommonButtonsFooterModal 
+                :method="'filter'" 
+                form-id="mainForm" 
+                @clear-form="clearForm" 
+            />
         </template>
     </ModalScrollBody>
 </template>
 <script setup lang="ts">
-import ModalScrollBody from '@/components/ModalScrollBody.vue'
-import { ref } from 'vue'
+import CommonButtonsFooterModal from '@/components/CommonButtonsFooterModal.vue';
+import InputTextDefault from '@/components/ui/input/InputTextDefault.vue';
+import ModalScrollBody from '@/components/ModalScrollBody.vue';
+import LabelValidation from '@/components/LabelValidation.vue';
+import type { ICaminhoes } from '@/interfaces/ICaminhoes';
+import SelectScroll from '@/components/SelectScroll.vue';
+import DatePicker from '@/components/DatePicker.vue';
+import Caminhoes from '@/entities/Caminhoes';
+import { ref, watch } from 'vue';
 
 interface Props {
     open: boolean
-    items?: any
+    items?: ICaminhoes | {}
 }
 
+const props = defineProps<Props>()
 const open = defineModel<boolean>('open')
-const emit = defineEmits(["close"])
+const emit = defineEmits(["close", "filterValues"])
 
-const mainForm = ref(null)
-defineProps<Props>()
+const caminhoesInstance = ref<Caminhoes>(new Caminhoes())
 
-const submitForm = (method: any) => {
-    console.log("teste", method)
+const submitForm = async () => {
+    emit('filterValues', caminhoesInstance.value.toJSON())
+    emit('close', false)
 }
+
+const clearForm = () => {
+    caminhoesInstance.value.clear()
+}
+
+watch(() => props.open, (value: boolean) => {
+    if (!value) {
+        Object.assign(caminhoesInstance.value, new Caminhoes())
+        return
+    }
+    if (props.items) {
+        Object.assign(caminhoesInstance.value, props.items)
+    }
+})
+
 
 </script>
+<style scoped>
+@reference "@/index.css";
+
+.columns {
+    @apply flex flex-col md:flex md:flex-row justify-between gap-x-3 gap-y-4;
+}
+
+.form {
+    @apply flex flex-col space-y-4;
+}
+</style>
