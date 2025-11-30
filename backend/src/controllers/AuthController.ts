@@ -10,11 +10,11 @@ const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET!;
 const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET!;
 
 function generateAccessToken(payload: object) {
-  return jwt.sign(payload, ACCESS_TOKEN_SECRET, { expiresIn: "15m" });
+    return jwt.sign(payload, ACCESS_TOKEN_SECRET, { expiresIn: "15m" });
 }
 
 function generateRefreshToken(payload: object) {
-  return jwt.sign(payload, REFRESH_TOKEN_SECRET, { expiresIn: "7d" });
+    return jwt.sign(payload, REFRESH_TOKEN_SECRET, { expiresIn: "1d" });
 }
 
 export default class AuthController {
@@ -143,5 +143,4 @@ export default class AuthController {
 
         return res.json({ message: "Logout realizado com sucesso" });
     }
-
 }

@@ -1,6 +1,9 @@
 import { Router, Request, Response  } from "express";
 import caminhaoRoute from "./caminhaoRoute";
 import motoristaRoute from "./motoristaRoute";
+import clienteRoute from "./clienteRoute";
+import postoRoute from "./postoRoute";
+import contratoRoute from "./contratoRoute";
 import AuthController from "../controllers/AuthController";
 import authMiddleware from "../middleware/auth";
 import { logAcesso } from "../middleware/logAcesso";
@@ -17,6 +20,9 @@ const authController = new AuthController();
 // ROTAS PROTEGIDAS
 routes.use("/api", authMiddleware, logAcesso, caminhaoRoute);
 routes.use("/api", authMiddleware, logAcesso, motoristaRoute);
+routes.use("/api", authMiddleware, logAcesso, clienteRoute);
+routes.use("/api", authMiddleware, logAcesso, postoRoute);
+routes.use("/api", authMiddleware, logAcesso, contratoRoute);
 routes.use("/api", authMiddleware, testeRouter);
 
 export default routes;
