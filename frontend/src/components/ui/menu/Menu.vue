@@ -64,11 +64,42 @@
         </SidebarGroupContent>
       </SidebarGroup>
     </SidebarContent>
+
+  <SidebarFooter>
+    <SidebarMenu>
+      <SidebarMenuItem>
+        <DropdownMenu>
+          <DropdownMenuTrigger as-child>
+            <SidebarMenuButton class="text-white hover:text-white"  @click="isChevronUp = !isChevronUp" >
+              <User2 /> Edson
+              <ChevronUp class="ml-auto" v-if="isChevronUp" />
+              <ChevronDown class="ml-auto" v-if="!isChevronUp" />
+            </SidebarMenuButton>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            side="top"
+            class="w-(--reka-popper-anchor-width)"
+          >
+            <DropdownMenuItem>
+              <span>Account</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <span>Billing</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+            <LogOut/>
+              <span>Sair</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </SidebarMenuItem>
+    </SidebarMenu>
+  </SidebarFooter>
   </Sidebar>
 </template>
 
 <script setup lang="ts">
-import { FileText, ClipboardPlusIcon, ChevronDown, Minus, Users, User, Fuel, Clipboard, Truck } from "lucide-vue-next"
+import { FileText, ClipboardPlusIcon, ChevronDown, Minus, Users, User, Fuel, Clipboard, Truck, ChevronUp, User2, LogOut } from "lucide-vue-next"
 import { TruckIcon } from '@heroicons/vue/24/outline';
 import {
   Sidebar,
@@ -81,7 +112,10 @@ import {
   SidebarMenuItem,
   SidebarMenuSub,
   SidebarMenuSubItem,
+  SidebarFooter,
 } from "@/components/ui/sidebar"
+
+import { DropdownMenu, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuContent } from "../dropdown-menu";
 
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "../collapsible";
 import { ref } from "vue";
@@ -106,11 +140,11 @@ const cadastroModule = [
     url: "/cadastro/motoristas",
     icon: User,
   },
-  {
-    title: "Postos",
-    url: "#",
-    icon: Fuel,
-  },
+  // {
+  //   title: "Postos",
+  //   url: "#",
+  //   icon: Fuel,
+  // },
   {
     title: "Abastecimentos",
     url: "#",
@@ -124,5 +158,6 @@ const cadastroModule = [
 ]
 
 const isChevronDown = ref(true)
+const isChevronUp = ref(true)
 
 </script>

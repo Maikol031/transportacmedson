@@ -1,33 +1,88 @@
+<template>
+  <div class="relative">
+    <input
+      ref="inputRef"
+      type="number"
+      inputmode="numeric"
+      :disabled="isDisabled"
+      class="w-full pr-3 h-10 py-2 border rounded-sm text-right disabled:bg-gray-100 disabled:border-none"
+      :value="modelValue"
+      @input="onInput"
+      @keydown="blockNonNumeric"
+      @paste.prevent="handlePaste"
+    />
+  </div>
+</template>
+
 <script setup lang="ts">
-import type { HTMLAttributes } from "vue"
-import { useVModel } from "@vueuse/core"
-import { cn } from "@/lib/utils"
+import { defineProps, defineEmits, ref } from "vue";
 
-const props = defineProps<{
-  defaultValue?: string | number
-  modelValue?: string | number
-  class?: HTMLAttributes["class"]
-}>()
+const props = defineProps({
+  modelValue: { type: Number, default: null },
+  maxChars: { type: Number, default: 12 },
+  isDisabled: { type: Boolean, default: false}
+});
 
-const emits = defineEmits<{
-  (e: "update:modelValue", payload: string | number): void
-}>()
+const emit = defineEmits(["update:modelValue"]);
 
-const modelValue = useVModel(props, "modelValue", emits, {
-  passive: true,
-  defaultValue: props.defaultValue,
-})
+const inputRef = ref<HTMLInputElement | null>(null);
+
+// 👉 BLOQUEIA NÃO-NÚMEROS E RESPEITA maxChars
+function blockNonNumeric(e: KeyboardEvent) {
+  const allowed = [
+    "Backspace", "Delete", "ArrowLeft", "ArrowRight",
+    "Tab", "Home", "End"
+  ];
+
+  // Se for tecla de controle → permite
+  if (allowed.includes(e.key)) return;
+
+  // Se não for número → bloqueia
+  if (!/^[0-9]$/.test(e.key)) {
+    e.preventDefault();
+    return;
+  }
+
+  // Se já atingiu limite → bloqueia
+  const currentValue = String(inputRef.value?.value ?? "");
+  if (currentValue.length >= props.maxChars) {
+    e.preventDefault();
+  }
+}
+
+// 👉 TRATA COLAR TEXTO E LIMITA maxChars
+function handlePaste(e: ClipboardEvent) {
+  let text = e.clipboardData?.getData("text") ?? "";
+
+  // só números
+  text = text.replace(/\D/g, "");
+
+  // respeita maxChars
+  text = text.slice(0, props.maxChars);
+
+  emit("update:modelValue", Number(text));
+}
+
+// 👉 INPUT NORMAL
+function onInput(e: Event) {
+  const target = e.target as HTMLInputElement;
+
+  let v = target.value.replace(/\D/g, "");
+
+  // aplica maxChars
+  v = v.slice(0, props.maxChars);
+
+  emit("update:modelValue", v === "" ? null : Number(v));
+}
 </script>
 
-<template>
-  <input
-    v-model="modelValue"
-    data-slot="input"
-    :class="cn(
-      'file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm',
-      'focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]',
-      'aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive',
-      props.class,
-    )"
-  >
-</template>
+<style scoped>
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+</style>

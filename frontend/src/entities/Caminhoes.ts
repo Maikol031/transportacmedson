@@ -28,7 +28,7 @@ export default class Caminhoes extends CrudFactory implements ICaminhoes {
     }
 
     constructor(init?: Partial<ICaminhoes>) {
-        super("/caminhoes")
+        super("api/caminhoes")
         Object.assign(this, {...init,
             dh_inc: init?.dh_inc ? formattIsoToDate(init?.dh_inc) : "" //data de teste, remover
         });

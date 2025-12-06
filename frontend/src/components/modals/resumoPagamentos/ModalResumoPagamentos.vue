@@ -1,7 +1,7 @@
 <template>
     <ModalScrollBody v-model:open="open" :title="method === 'add' ? 'Resumo de Pagamentos' : 'Editar'"
         :subTitle="'Contrato 484554 Pendente'" :is-show-footer="false" size-modal="md:max-w-[1000px]"
-        customize-class="bg-orange-500 text-white">
+        customize-class="blink-yellow text-white">
         <template #body>
             <div class="flex justify-between items-center pb-6">
                 <span class="text-gray-500">

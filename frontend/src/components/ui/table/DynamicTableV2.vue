@@ -40,7 +40,11 @@
                 whiteSpace: 'nowrap'
               }" class="px-3 py-2 truncate border-b text-left text-sm"
                 :title="props.enableTooltip ? row[col.key] : ''">
-                {{ row[col.key] }}
+
+                <span :class="col.ruleStyle && col.ruleStyle(row) ? col.ruleStyle(row) : ''">
+                  {{ row[col.key] }}
+                </span>
+                <!-- {{ row[col.key] }} -->
               </td>
             </tr>
           </tbody>
@@ -133,6 +137,7 @@ export interface Column {
   label: string
   width?: string
   maxWidth?: string
+  ruleStyle?: (row?: any) => string
 }
 
 interface Props {

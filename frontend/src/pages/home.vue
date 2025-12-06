@@ -1,38 +1,46 @@
 <template>
-    <div class="space-y-4">
+  <div class="space-y-4">
 
-        <CommonActionsHeader 
-            :is-filter-btn="true" 
-            :is-new-register-btn="true"
-            :is-delete-btn="true"
-            :count-items="selectedItems.length"
-            @filter=""
-            @newRegister="() => console.log('testandooooooooooooooooooooooooooo')" 
-            @delete="openModal('delete')"
-        />
-
-        <DynamicTableV2 
-            :columns="columns" 
-            :items="items" 
-            :enable-tooltip="true" 
-            :is-actions="true"
-            :is-select-all="false" @edit="openModal('edit', $event)" 
-            @update:selected="selectedItems = $event"
-            @detalhar="openResumo = !openResumo"
-            caption="Dica: clique duas vezes sobre um registro para detalhar/editar." 
-        />
-
-    </div>
-
-    <ModalConfirmDelete 
-        v-model:open="modals.isOpen.delete" 
-        :count="selectedItems.length"
+    <CommonActionsHeader 
+      :is-filter-btn="true" 
+      :is-new-register-btn="true" 
+      :is-delete-btn="true"
+      :count-items="selectedItems.length" 
+      @filter="openModal('filter')"
+      @newRegister="openModal('add')" 
+      @delete="openModal('delete')" 
     />
-    <ModalResumoPagamentos 
-      v-model:open="openResumo" 
-      method="add"
-      @close="modals.isOpen.filter = $event"
+
+    <DynamicTableV2 
+      :columns="columns" 
+      :items="items" 
+      :enable-tooltip="true" 
+      :is-actions="true" 
+      :is-select-all="false"
+      @edit="openModal('edit', $event)" 
+      @update:selected="selectedItems = $event" 
+      @detalhar="openResumo = !openResumo"
+      caption="Dica: clique duas vezes sobre um registro para detalhar/editar." 
     />
+
+  </div>
+
+  <ModalConfirmDelete 
+    v-model:open="modals.isOpen.delete" 
+    :count="selectedItems.length" 
+  />
+  <ModalResumoPagamentos 
+    v-model:open="openResumo" 
+    method="add" 
+    @close="modals.isOpen.filter = $event" 
+  />
+  <ModalHome 
+    v-model:open="modals.isOpen.actions" 
+    :method="modals.method" 
+    :items="modals.details"
+    @close="modals.isOpen.actions = $event" 
+  />
+
 </template>
 <script setup lang="ts">
 import CommonActionsHeader from '@/components/CommonActionsHeader.vue';
@@ -41,6 +49,7 @@ import { getUser } from '@/stores/authStore';
 import { onMounted, ref } from 'vue';
 import ModalConfirmDelete from '@/components/ModalConfirmDelete.vue';
 import ModalResumoPagamentos from '@/components/modals/resumoPagamentos/ModalResumoPagamentos.vue';
+import ModalHome from '@/components/modals/details/ModalHome.vue';
 
 type ModalType = 'add' | 'edit' | 'filter' | 'delete';
 
@@ -60,19 +69,29 @@ const openResumo = ref(false)
 const selectedItems = ref<(number | string)[]>([]);
 
 const columns = ref<any[]>([
-    { key: 'nroContrato', label: 'Nro. Contrato' },
-    { key: 'cliente', label: 'Cliente' },
-    { key: 'dtEmiss', label: 'Data Emissão' },
-    { key: 'dtSaida', label: 'Data Saída' },
-    { key: 'origem', label: 'Origem' },
-    { key: 'destino', label: 'Destino' },
-    { key: 'placa', label: 'Placa' },
-    { key: 'peso', label: 'Peso (KG)' },
-    { key: 'vlUnit', label: 'Vlr. Unitário' },
-    { key: 'vlTot', label: 'Vlr. Total' },
-    { key: 'vlPago', label: 'Vlr. Pago' },
-    { key: 'statusV', label: 'Status Viagem' },
-    { key: 'statusC', label: 'Status Contrato' },
+  { key: 'nroContrato', label: 'Nro. Contrato' },
+  { key: 'cliente', label: 'Cliente' },
+  { key: 'dtEmiss', label: 'Data Emissão' },
+  { key: 'dtSaida', label: 'Data Saída' },
+  { key: 'origem', label: 'Origem' },
+  { key: 'destino', label: 'Destino' },
+  { key: 'placa', label: 'Placa' },
+  { key: 'peso', label: 'Peso (KG)' },
+  { key: 'vlUnit', label: 'Vlr. Unitário Tonelada' },
+  { key: 'vlTot', label: 'Vlr. Total' },
+  { key: 'vlPago', label: 'Vlr. Pago' },
+  {
+    key: 'statusV', label: 'Status Viagem', ruleStyle: (row: any) => {
+      if (row.statusV === "Em Andamento") return 'blink-yellow'
+      if (row.statusV === "Finalizado") return 'blink-green'
+    }
+  },
+  {
+    key: 'statusC', label: 'Status Contrato', style: "blink-red", ruleStyle: (row: any) => {
+      if (row.statusC === "Aberto") return 'blink-yellow'
+      if (row.statusC === "Concluído") return 'blink-green'
+    }
+  },
 ])
 
 const items = ref([
@@ -274,7 +293,7 @@ const openModal = (type: ModalType, item?: any) => {
 
 
 onMounted(() => {
-    console.log(getUser())
+  console.log(getUser())
 })
 
 </script>

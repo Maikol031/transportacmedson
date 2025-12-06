@@ -24,8 +24,9 @@ export function getUser() {
 }
 
 export async function restoreSession(api: any) {
+  console.log(api)
   try {
-    const res = await api.get("/auth/refresh", { withCredentials: true });
+    const res = await api.post("/auth/refresh", { withCredentials: true });
     console.log(res)
     if (res.data.accessToken) {
       setAccessToken(res.data.accessToken);

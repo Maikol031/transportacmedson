@@ -115,7 +115,7 @@ export default class AuthController {
         }
     }
 
-    async refresh(req, res) {
+    async refresh(req: Request, res: Response) {
         const refreshToken = req.cookies?.refreshToken;
 
         if (!refreshToken) return res.status(401).json({ error: "Sem refresh token" });

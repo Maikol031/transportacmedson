@@ -1,31 +1,37 @@
 <template>
-    <div ref="root" class="w-full relative">
+    <div ref="root" class="relative w-full md:w-auto">
 
-        <div class="flex flex-col gap-4">
+        <div class="flex flex-col bg-gray-100 rounded-r-md">
 
-            <div class="flex">
+            <div class="flex w-full">
                 <div
-                    class="flex items-center bg-white rounded-r-md shadow-sm border border-gray-200 border-l-0 h-10 relative">
+                    class="flex items-center bg-white rounded-r-md border border-gray-100 border-l-0 h-10 relative w-full mr-2">
 
                     <div class="h-full w-px bg-gray-200"></div>
 
                     <div class="flex relative h-full items-center">
 
-                        <input type="text" placeholder="Código" v-model="searchId" @keyup.enter="runSearch"
-                            class="flex items-center justify-center h-10 text-center w-20 focus:outline-none text-gray-500" />
+                        <input :disabled="disabled" type="text" placeholder="Código" v-model="searchId"
+                            @keyup.enter="runSearch" class="flex items-center justify-center h-10 text-center w-20 focus:outline-none text-gray-500
+                            disabled:bg-gray-100" />
 
-                        <div class="h-10 flex items-center px-1 border-y-1  bg-main cursor-pointer border-x-none border-y-gray-200"
-                            @click="runSearch">
+                        <button
+                            type="button"
+                            :disabled="disabled"
+                            class="h-10 flex items-center px-1 border-y-1 bg-blue-500 cursor-pointer  border-x-none border-y-gray-200 disabled:bg-blue-500/30  disabled:cursor-not-allowed"
+                            @click="runSearch"
+                        >
 
                             <Search class="text-white" :size="18" />
-                        </div>
+                        </button>
 
                     </div>
 
                     <div class="h-full w-px bg-gray-200"></div>
 
-                    <input type="text" placeholder="Pesquisar..." v-model="searchText" @keyup.enter="runSearch"
-                        class="px-4 w-72 h-full focus:outline-none text-gray-500" />
+                    <input :disabled="disabled" type="text" placeholder="Pesquisar..." v-model="searchText"
+                        @keyup.enter="runSearch" class="px-4 w-full h-full focus:outline-none text-gray-500 
+                        disabled:bg-gray-100" />
                 </div>
             </div>
 
@@ -52,9 +58,17 @@
 
 <script setup lang="ts">
 import { Search } from "lucide-vue-next";
-import { ref, onMounted, onBeforeUnmount, computed } from "vue";
+import { ref, onMounted, onBeforeUnmount, computed, type Prop } from "vue";
 
 const root = ref<HTMLElement | null>(null);
+
+interface Props {
+    disabled?: boolean
+}
+
+withDefaults(defineProps<Props>(), {
+    disabled: false
+})
 
 // Dropdown
 const open = ref(false);

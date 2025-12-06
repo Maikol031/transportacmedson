@@ -20,7 +20,7 @@ export default class Pagamentos extends CrudFactory implements IPagamentos {
     };
 
     constructor(init?: Partial<IPagamentos>) {
-        super("/pagamentos");
+        super("api/pagamentos");
         Object.assign(this, init);
     }
 

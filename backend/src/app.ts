@@ -31,9 +31,9 @@ app.use(cors({
 
 app.use(helmet());
 
-app.use(authRoutes);
+app.use("/auth", authRoutes);
 app.use(passwordRoutes);
-app.use(route);
+app.use("/api", route);
 
 app.use(errorLogger);
 

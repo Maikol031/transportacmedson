@@ -19,11 +19,11 @@ const routes = Router();
 // routes.post("/auth/refresh", (req, res) => authController.refresh(req, res));
 
 // ROTAS PROTEGIDAS
-routes.use("/api", authMiddleware, logAcesso, caminhaoRoute);
-routes.use("/api", authMiddleware, logAcesso, motoristaRoute);
-routes.use("/api", authMiddleware, logAcesso, clienteRoute);
-routes.use("/api", authMiddleware, logAcesso, postoRoute);
-routes.use("/api", authMiddleware, logAcesso, contratoRoute);
-routes.use("/api", authMiddleware, testeRouter);
+routes.use(authMiddleware, logAcesso, caminhaoRoute);
+routes.use(authMiddleware, logAcesso, motoristaRoute);
+routes.use(authMiddleware, logAcesso, clienteRoute);
+routes.use(authMiddleware, logAcesso, postoRoute);
+routes.use(authMiddleware, logAcesso, contratoRoute);
+routes.use(authMiddleware, testeRouter);
 
 export default routes;

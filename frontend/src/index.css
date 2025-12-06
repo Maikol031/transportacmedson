@@ -164,3 +164,71 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+
+  /* GREEN */
+  @keyframes blinkGreen {
+    0% {
+      background-color: #22c55e;
+    }
+
+    /* green-500 */
+    50% {
+      background-color: #16a34a;
+    }
+
+    /* green-600 */
+    100% {
+      background-color: #22c55e;
+    }
+  }
+
+  /* RED */
+  @keyframes blinkRed {
+    0% {
+      background-color: #ef4444;
+    }
+
+    /* red-500 */
+    50% {
+      background-color: #dc2626;
+    }
+
+    /* red-600 */
+    100% {
+      background-color: #ef4444;
+    }
+  }
+
+  @keyframes blinkYellow {
+    0% {
+      background-color: #eab308;
+    }
+
+    /* yellow-500 */
+    50% {
+      background-color: #ca8a04;
+    }
+
+    /* yellow-600 */
+    100% {
+      background-color: #eab308;
+    }
+  }
+
+  .blink-yellow {
+    @apply text-white rounded-xl px-2 inline-block;
+    animation: blinkYellow 3s infinite ease-in-out;
+  }
+
+  .blink-green {
+    @apply text-white rounded-xl px-2 inline-block;
+    animation: blinkGreen 3s infinite ease-in-out;
+  }
+
+  .blink-red {
+    @apply text-white rounded-xl px-2 inline-block;
+    animation: blinkRed 3s infinite ease-in-out;
+  }
+}

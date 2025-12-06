@@ -4,15 +4,11 @@
       R$
     </span>
 
-    <input
-      ref="inputRef"
-      type="text"
-      inputmode="numeric"
-      class="w-full pl-10 pr-3 py-2 border rounded text-right"
-      :value="display"
-      @input="handleInput"
-      :maxlength="maxChars"
-    />
+    <input ref="inputRef" type="text" inputmode="numeric" class="w-full pl-10 pr-3 h-10 py-2 border rounded-sm text-right"
+      :value="display" @input="handleInput" @keydown="blockNonNumeric" @paste.prevent="handlePaste"
+      :maxlength="maxChars" />
+
+
   </div>
 </template>
 
@@ -21,7 +17,7 @@ import { ref, watch, defineProps, defineEmits } from "vue";
 
 const props = defineProps({
   modelValue: Number,
-  maxChars: { type: Number, default: 12 }   // <= LIMITE DE CARACTERES DO INPUT
+  maxChars: { type: Number, default: 12 }
 });
 
 const emit = defineEmits(["update:modelValue"]);
@@ -29,7 +25,36 @@ const emit = defineEmits(["update:modelValue"]);
 const inputRef = ref<HTMLInputElement | null>(null);
 const display = ref("");
 
-// Formatador BRL (sem prefixo)
+// Bloca teclas não numéricas
+function blockNonNumeric(e: KeyboardEvent) {
+  const allowedKeys = [
+    "Backspace",
+    "Delete",
+    "ArrowLeft",
+    "ArrowRight",
+    "Tab",
+    "Home",
+    "End"
+  ];
+
+  if (allowedKeys.includes(e.key)) return;
+
+  // Permite números (0–9)
+  if (/^[0-9]$/.test(e.key)) return;
+
+  // Caso contrário, bloqueia
+  e.preventDefault();
+}
+
+// Evita colar caracteres não numéricos
+function handlePaste(e: ClipboardEvent) {
+  const text = e.clipboardData?.getData("text") ?? "";
+  if (!/^\d+$/.test(text)) {
+    e.preventDefault();
+  }
+}
+
+// Formatador
 function formatBRL(value: number) {
   return (value / 100).toLocaleString("pt-BR", {
     minimumFractionDigits: 2,
@@ -37,7 +62,6 @@ function formatBRL(value: number) {
   });
 }
 
-// Atualiza display quando modelValue vier de fora
 watch(
   () => props.modelValue,
   (v) => {
@@ -47,11 +71,10 @@ watch(
   { immediate: true }
 );
 
-// Input handler
 function handleInput(e: Event) {
   const target = e.target as HTMLInputElement;
 
-  // limpa tudo que não for número
+  // mantém apenas números
   let raw = target.value.replace(/\D/g, "");
 
   if (!raw) {
@@ -65,7 +88,6 @@ function handleInput(e: Event) {
 
   emit("update:modelValue", cents);
 
-  // mantém cursor no final
   requestAnimationFrame(() => {
     if (inputRef.value) {
       const len = inputRef.value.value.length;

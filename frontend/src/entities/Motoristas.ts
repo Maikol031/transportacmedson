@@ -30,7 +30,7 @@ export default class Motoristas extends CrudFactory implements IMotoristas {
     };
 
     constructor(init?: Partial<IMotoristas>) {
-        super("/motoristas");
+        super("api/motoristas");
         Object.assign(this, init);
     }
 

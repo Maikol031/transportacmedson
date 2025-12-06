@@ -8,8 +8,8 @@ import { Router } from "express";
 const authRoute = Router();
 const authController = new AuthController();
 
-authRoute.post("/auth/login", authLimiter, authController.login);
-authRoute.post("/auth/refresh", validateRefresh, authController.refresh);
-authRoute.post("/auth/logout", refreshLimiter, authController.logout);
+authRoute.post("/login", authLimiter, authController.login);
+authRoute.post("/refresh",  authController.refresh);
+authRoute.post("/logout", refreshLimiter, authController.logout);
 
 export default authRoute;
