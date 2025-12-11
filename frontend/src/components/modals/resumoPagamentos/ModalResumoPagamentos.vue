@@ -7,8 +7,13 @@
                 <span class="text-gray-500">
                     Dica: clique duas vezes sobre um registro para detalhar/editar.
                 </span>
-                <CommonActionsHeader :is-new-register-btn="true" :is-delete-btn="true" :count-items="countSelected"
-                    @newRegister="openModal('add')" />
+                <CommonActionsHeader 
+                    :is-new-register-btn="true" 
+                    :is-delete-btn="true" 
+                    :count-items="countSelected"
+                    @newRegister="openModal('add')"
+                    @delete="openModal('delete')" 
+                />
 
             </div>
             <div class="border border-x-0 rounded overflow-hidden">
@@ -89,7 +94,7 @@
 
     <ModalConfirmDelete 
         v-model:open="modals.isOpen.delete" 
-        :count="selectedItems.length"
+        :count="countSelected"
     />
 
 </template>
@@ -143,9 +148,6 @@ const formatDesp = (type: string) => {
 
 
 const countSelected = computed(() => selectedRows.value.length)
-
-
-
 
 
 const modals = ref<ModalProps>({

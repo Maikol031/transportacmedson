@@ -1,6 +1,6 @@
 <template>
 
-    <div class="flex justify-end w-full gap-x-1">
+    <div class="flex justify-end w-full gap-x-2">
 
         <button
             @click="$emit('clearForm')"

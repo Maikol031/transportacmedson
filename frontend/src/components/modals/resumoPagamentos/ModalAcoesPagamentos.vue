@@ -8,13 +8,24 @@
 
                     <LabelValidation label="Tipo de Despesa" class="w-full"
                         :message="(v$?.tipoDespesa?.$errors[0]?.$message) as string || ''">
-                        <SelectScroll v-model="pagamentosInstance.tipoDespesa" customize-class="bg-white"
-                            :options="[{ label: 'Tipo', items: [{ value: '0', label: 'Abastecimento' }, { value: '1', label: 'Avaria' }, { value: '2', label: 'Nenhuma' }] }]" />
+                        <SelectScroll 
+                            v-model="pagamentosInstance.tipoDespesa" 
+                            customize-class="bg-white"
+                            :disabled="disabled"
+                            :options="[{ 
+                                label: 'Tipo', 
+                                items: [{ value: '0', label: 'Abastecimento' }, { value: '1', label: 'Avaria' }, { value: '2', label: 'Nenhuma' }] }]" 
+                            />
                     </LabelValidation>
 
                     <LabelValidation :message="(v$?.valor?.$errors[0]?.$message) as string || ''"
                         v-model="pagamentosInstance.valor" label="Valor" class="w-full">
-                        <InputCurrency :show-prefix="true" :max-digits="3" class="bg-white" />
+                        <InputCurrency
+                            :is-disabled="disabled" 
+                            :show-prefix="true" 
+                            :max-digits="3" 
+                            class="bg-white" 
+                        />
                     </LabelValidation>
 
                 </div>
@@ -22,12 +33,15 @@
                 <div class="columns">
 
                     <LabelValidation label="Placa" class="w-full md:max-w-60 md:min-w-60">
-                        <SelectScroll v-model="pagamentosInstance.placa" customize-class="bg-white" :disabled="pagamentosInstance.tipoDespesa === '0' || pagamentosInstance.tipoDespesa === '1' ? false : true "
+                        <SelectScroll
+                            v-model="pagamentosInstance.placa" customize-class="bg-white" 
+                            :disabled="!fieldsLocked && (pagamentosInstance.tipoDespesa === '0' || pagamentosInstance.tipoDespesa === '1') ? false : true"
                             :options="[{ label: 'Placa', items: [{ value: '0', label: 'NHDJ-5522' }, { value: '1', label: 'kHYJ-3582' }] }]" />
                     </LabelValidation>
 
                     <LabelValidation label="Posto" class="w-full">
-                        <SelectScroll v-model="pagamentosInstance.posto" customize-class="bg-white" :disabled="pagamentosInstance.tipoDespesa === '0' ? false : true "
+                        <SelectScroll v-model="pagamentosInstance.posto" customize-class="bg-white" 
+                        :disabled="!fieldsLocked && pagamentosInstance.tipoDespesa === '0' ? false : true "
                             :options="[{ label: 'Posto', items: [{ value: '0', label: 'Morada do Sol' }, { value: '1', label: 'Posto Decio' }] }]" />
                     </LabelValidation>
 
@@ -40,8 +54,10 @@
                 <div>
                     <LabelValidation v-model="pagamentosInstance.observacao" label="Observação"
                         class="w-full md:w-full">
-                        <textarea maxlength="1000"
-                            class="w-full border border-gray-300 rounded-md p-2 resize-none h-32 focus:outline-none focus:ring-2 focus:ring-gray-400"></textarea>
+                        <textarea 
+                            :disabled="disabled"
+                            maxlength="1000"
+                            class="w-full border border-gray-300 rounded-md p-2 resize-none h-32 focus:outline-none focus:ring-2 focus:ring-gray-400 disabled:bg-gray-100 disabled:border-none"></textarea>
                     </LabelValidation>
 
                 </div>
@@ -77,7 +93,7 @@ interface Props {
 const props = defineProps<Props>()
 const open = defineModel<boolean>('open')
 const emit = defineEmits(["close"])
-const fieldsLocked = ref<boolean>(true);
+const fieldsLocked = ref<boolean>(false);
 const disabled = computed(() => props.method === 'edit' && fieldsLocked.value)
 
 const pagamentosInstance = ref<Pagamentos>(new Pagamentos())

@@ -5,7 +5,7 @@
       type="number"
       inputmode="numeric"
       :disabled="isDisabled"
-      class="w-full pr-3 h-10 py-2 border rounded-sm text-right disabled:bg-gray-100 disabled:border-none"
+      class="w-full pr-3 h-10 py-2 border rounded-sm text-right disabled:bg-gray-100 disabled:border-none disabled:text-gray-400"
       :value="modelValue"
       @input="onInput"
       @keydown="blockNonNumeric"
@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits, ref } from "vue";
+import { ref } from "vue";
 
 const props = defineProps({
   modelValue: { type: Number, default: null },

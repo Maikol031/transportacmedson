@@ -10,6 +10,7 @@ export interface IContrato {
     pesoT: number;
     valorUnit: number;
     valorTotal: number;
+    valorReceb: number;
     valorPago?: number;
     statusViagem: { id: number,  name: string }
     statusContrato: { id: number,  name: string }

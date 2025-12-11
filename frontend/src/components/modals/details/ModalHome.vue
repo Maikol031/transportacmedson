@@ -60,8 +60,10 @@
                         />
                     </LabelValidation>
 
-                    <LabelValidation label="Placa" 
-                        :message="(v$?.placa?.$errors[0]?.$message) as string || ''">
+                    <LabelValidation 
+                        label="Placa" 
+                        :message="(v$?.placa?.$errors[0]?.$message) as string || ''"
+                    >
                         <SelectScroll  
                             v-model:model="contratoInstance.statusViagem" 
                             customize-class="bg-white" :disabled="disabled"
@@ -75,24 +77,26 @@
                         />
                     </LabelValidation>
 
-                    <LabelValidation label="Peso(T)"
-                        :message="(v$?.pesoT?.$errors[0]?.$message) as string || ''">
+                    <LabelValidation 
+                        label="Peso(T)"
+                        :message="(v$?.pesoT?.$errors[0]?.$message) as string || ''"
+                    >
                         <Input
                             type="number" 
                             v-model="contratoInstance.pesoT" 
-                            :disabled="disabled" 
+                            :is-disabled="disabled" 
                             :max-chars="3"
                         />
                     </LabelValidation>
 
                 </div>
-                <div class="grid grid-cols-3 gap-x-4">
+                <div class="grid grid-cols-4 gap-x-4">
 
                     <LabelValidation label="Valor Unitário Tonelada"
                         :message="(v$?.valorUnit?.$errors[0]?.$message) as string || ''">
                         <InputCurrency 
                             v-model="contratoInstance.valorUnit" 
-                            :disabled="disabled" 
+                            :is-disabled="disabled" 
                         />
                     </LabelValidation>
 
@@ -100,14 +104,21 @@
                         :message="(v$?.valorTotal?.$errors[0]?.$message) as string || ''">
                         <InputCurrency 
                             v-model="contratoInstance.valorTotal" 
-                            :disabled="disabled" 
+                            :is-disabled="disabled" 
                         />
                     </LabelValidation>
 
                     <LabelValidation label="Valor Pago">
                         <InputCurrency 
                             v-model="contratoInstance.valorPago" 
-                            :disabled="disabled" 
+                            :is-disabled="disabled" 
+                        />
+                    </LabelValidation>
+
+                    <LabelValidation label="Valor a Receber">
+                        <InputCurrency 
+                            v-model="contratoInstance.valorReceb" 
+                            :is-disabled="disabled" 
                         />
                     </LabelValidation>
 

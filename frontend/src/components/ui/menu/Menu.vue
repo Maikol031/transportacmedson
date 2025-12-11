@@ -3,8 +3,8 @@
     <SidebarContent>
       <SidebarGroup>
         <SidebarGroupLabel class="h-16 flex justify-center mb-5 border-b pb-2 rounded-none gap-x-2">
-            <TruckIcon class="!w-12 !h-12 text-white" />
-          <span class="text-2xl text-white ">ACM SYSTEM</span>      
+          <TruckIcon class="!w-12 !h-12 text-white" />
+          <span class="text-2xl text-white ">ACM SYSTEM</span>
         </SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
@@ -22,16 +22,14 @@
 
                 <CollapsibleTrigger asChild>
 
-                  <SidebarMenuButton
-                    @click="isChevronDown = !isChevronDown" 
-                    class="flex justify-between items-center cursor-pointer !text-white hover:!text-white text-md active:!text-white w-full"
-                  >
+                  <SidebarMenuButton @click="isChevronDown = !isChevronDown"
+                    class="flex justify-between items-center cursor-pointer !text-white hover:!text-white text-md active:!text-white w-full">
                     <div class="flex items-center gap-2">
-                      <ClipboardPlusIcon class="size-5"/>
+                      <ClipboardPlusIcon class="size-5" />
                       <span>Cadastros</span>
                     </div>
 
-                    <ChevronDown v-if="isChevronDown" class="ml-auto"/>
+                    <ChevronDown v-if="isChevronDown" class="ml-auto" />
                     <Minus v-else class="ml-auto" />
                   </SidebarMenuButton>
 
@@ -41,7 +39,7 @@
                 <CollapsibleContent>
                   <SidebarMenuSub>
 
-                    <SidebarMenuSubItem  v-for="item in cadastroModule" :key="item.title">
+                    <SidebarMenuSubItem v-for="item in cadastroModule" :key="item.title">
 
                       <RouterLink :to="item.url">
                         <SidebarMenuButton class="cursor-pointer text-white hover:text-white text-md active:text-white">
@@ -65,36 +63,30 @@
       </SidebarGroup>
     </SidebarContent>
 
-  <SidebarFooter>
-    <SidebarMenu>
-      <SidebarMenuItem>
-        <DropdownMenu>
-          <DropdownMenuTrigger as-child>
-            <SidebarMenuButton class="text-white hover:text-white"  @click="isChevronUp = !isChevronUp" >
-              <User2 /> Edson
-              <ChevronUp class="ml-auto" v-if="isChevronUp" />
-              <ChevronDown class="ml-auto" v-if="!isChevronUp" />
-            </SidebarMenuButton>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            side="top"
-            class="w-(--reka-popper-anchor-width)"
-          >
-            <DropdownMenuItem>
-              <span>Account</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <span>Billing</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-            <LogOut/>
-              <span>Sair</span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </SidebarMenuItem>
-    </SidebarMenu>
-  </SidebarFooter>
+    <SidebarFooter>
+      <SidebarMenu>
+        <SidebarMenuItem>
+          <DropdownMenu v-model:open="isOpen">
+            <DropdownMenuTrigger as-child>
+              <SidebarMenuButton class="text-white hover:text-white active:text-white cursor-pointer">
+                <User2 /> Edson
+
+                <ChevronUp class="ml-auto" v-if="isOpen" />
+                <ChevronDown class="ml-auto" v-else />
+              </SidebarMenuButton>
+            </DropdownMenuTrigger>
+
+            <DropdownMenuContent side="top" class="w-(--reka-popper-anchor-width)">
+              <DropdownMenuItem  :class="'cursor-pointer'">
+                <LogOut />
+                <span>Sair</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+        </SidebarMenuItem>
+      </SidebarMenu>
+    </SidebarFooter>
   </Sidebar>
 </template>
 
@@ -159,5 +151,6 @@ const cadastroModule = [
 
 const isChevronDown = ref(true)
 const isChevronUp = ref(true)
+const isOpen = ref<boolean>(false)
 
 </script>

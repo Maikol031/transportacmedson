@@ -16,6 +16,7 @@ export default class Contrato extends CrudFactory implements IContrato {
     pesoT!: number;
     valorUnit!: number;
     valorTotal!: number;
+    valorReceb!: number;
     valorPago?: number | undefined;
     statusViagem!: { id: number; name: string; };
     statusContrato!: { id: number; name: string; };

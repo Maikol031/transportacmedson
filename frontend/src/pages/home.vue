@@ -40,6 +40,10 @@
     :items="modals.details"
     @close="modals.isOpen.actions = $event" 
   />
+  <ModalHomeFilter
+    v-model:open="modals.isOpen.filter"
+    @close="modals.isOpen.filter = $event"
+  />
 
 </template>
 <script setup lang="ts">
@@ -50,6 +54,8 @@ import { onMounted, ref } from 'vue';
 import ModalConfirmDelete from '@/components/ModalConfirmDelete.vue';
 import ModalResumoPagamentos from '@/components/modals/resumoPagamentos/ModalResumoPagamentos.vue';
 import ModalHome from '@/components/modals/details/ModalHome.vue';
+import { formatMoney } from '@/utils/utils';
+import ModalHomeFilter from '@/components/modals/filters/ModalHomeFilter.vue';
 
 type ModalType = 'add' | 'edit' | 'filter' | 'delete';
 
@@ -80,6 +86,7 @@ const columns = ref<any[]>([
   { key: 'vlUnit', label: 'Vlr. Unitário Tonelada' },
   { key: 'vlTot', label: 'Vlr. Total' },
   { key: 'vlPago', label: 'Vlr. Pago' },
+  { key: 'vlReceb', label: 'Vlr. a Receber' },
   {
     key: 'statusV', label: 'Status Viagem', ruleStyle: (row: any) => {
       if (row.statusV === "Em Andamento") return 'blink-yellow'
@@ -108,6 +115,7 @@ const items = ref([
     vlUnit: 4.50,
     vlTot: 67500,
     vlPago: 30000,
+    vlReceb: formatMoney(30000),
     statusV: 'Em Andamento',
     statusC: 'Aberto'
   },
@@ -124,6 +132,7 @@ const items = ref([
     vlUnit: 5.10,
     vlTot: 112200,
     vlPago: 112200,
+    vlReceb: formatMoney(30000),
     statusV: 'Finalizado',
     statusC: 'Concluído'
   },
@@ -140,6 +149,7 @@ const items = ref([
     vlUnit: 4.70,
     vlTot: 82250,
     vlPago: 41000,
+    vlReceb: formatMoney(30000),
     statusV: 'Em Andamento',
     statusC: 'Aberto'
   },
@@ -156,6 +166,7 @@ const items = ref([
     vlUnit: 5.30,
     vlTot: 137800,
     vlPago: 100000,
+    vlReceb: formatMoney(30000),
     statusV: 'Em Andamento',
     statusC: 'Aberto'
   },
@@ -172,6 +183,7 @@ const items = ref([
     vlUnit: 4.90,
     vlTot: 95550,
     vlPago: 95550,
+    vlReceb: formatMoney(30000),
     statusV: 'Finalizado',
     statusC: 'Concluído'
   },
@@ -188,6 +200,7 @@ const items = ref([
     vlUnit: 5.00,
     vlTot: 120000,
     vlPago: 60000,
+    vlReceb: formatMoney(30000),
     statusV: 'Finalizado',
     statusC: 'Concluído'
   },
@@ -204,6 +217,7 @@ const items = ref([
     vlUnit: 5.20,
     vlTot: 104000,
     vlPago: 0,
+    vlReceb: formatMoney(30000),
     statusV: 'Finalizado',
     statusC: 'Concluído'
   },
@@ -220,6 +234,7 @@ const items = ref([
     vlUnit: 4.60,
     vlTot: 85100,
     vlPago: 85100,
+    vlReceb: formatMoney(30000),
     statusV: 'Finalizado',
     statusC: 'Concluído'
   },
@@ -236,6 +251,7 @@ const items = ref([
     vlUnit: 5.40,
     vlTot: 91800,
     vlPago: 30000,
+    vlReceb: formatMoney(30000),
     statusV: 'Finalizado',
     statusC: 'Concluído'
   },
@@ -252,6 +268,7 @@ const items = ref([
     vlUnit: 4.80,
     vlTot: 86400,
     vlPago: 0,
+    vlReceb: formatMoney(30000),
     statusV: 'Finalizado',
     statusC: 'Concluído'
   }

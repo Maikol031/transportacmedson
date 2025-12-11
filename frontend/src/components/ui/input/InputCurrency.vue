@@ -4,20 +4,30 @@
       R$
     </span>
 
-    <input ref="inputRef" type="text" inputmode="numeric" class="w-full pl-10 pr-3 h-10 py-2 border rounded-sm text-right"
-      :value="display" @input="handleInput" @keydown="blockNonNumeric" @paste.prevent="handlePaste"
-      :maxlength="maxChars" />
+    <input 
+      ref="inputRef" 
+      type="text" 
+      :disabled="isDisabled"
+      inputmode="numeric" 
+      class="w-full pl-10 pr-3 h-10 py-2 border rounded-sm text-right disabled:bg-gray-100 disabled:border-none disabled:text-gray-400"
+      :value="display" 
+      @input="handleInput" 
+      @keydown="blockNonNumeric" 
+      @paste.prevent="handlePaste"
+      :maxlength="maxChars" 
+    />
 
 
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch, defineProps, defineEmits } from "vue";
+import { ref, watch } from "vue";
 
 const props = defineProps({
   modelValue: Number,
-  maxChars: { type: Number, default: 12 }
+  maxChars: { type: Number, default: 12 },
+  isDisabled: { type: Boolean, default: false }
 });
 
 const emit = defineEmits(["update:modelValue"]);
